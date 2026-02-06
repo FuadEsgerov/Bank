@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Bank Kart Sifarişi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --primary: #1a3a52;
+            --primary-light: #2c5672;
+            --accent: #d4a574;
+            --bg-main: #fafbfc;
+            --bg-section: #ffffff;
+            --text-primary: #1a2332;
+            --text-secondary: #5f6b7a;
+            --border: #e1e6eb;
+            --success: #2d7a3e;
+            --error: #c93a3a;
+            --shadow-sm: 0 1px 3px rgba(26, 58, 82, 0.08);
+            --shadow-md: 0 4px 12px rgba(26, 58, 82, 0.12);
+            --shadow-lg: 0 8px 24px rgba(26, 58, 82, 0.16);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        
+        body {
+            font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 1rem;
+            overflow-x: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            body {
+                padding: 2rem 1rem;
+            }
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card {
+            background: var(--bg-section);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            .card {
+                border-radius: 16px;
+                padding: 2.5rem;
+                margin-bottom: 1.5rem;
+            }
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+        }
+        
+        h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+        
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        h2 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+            line-height: 1.3;
+        }
+        
+        @media (min-width: 768px) {
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+        }
+        
+        .header-info {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        
+        @media (min-width: 480px) {
+            .header-info {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+                padding: 1.25rem;
+                border-radius: 12px;
+                margin-bottom: 2rem;
+            }
+        }
+        
+        .header-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.8;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+        
+        @media (min-width: 768px) {
+            .header-label {
+                font-size: 0.75rem;
+            }
+        }
+        
+        .header-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            word-break: break-word;
+        }
+        
+        @media (min-width: 768px) {
+            .header-value {
+                font-size: 1rem;
+            }
+        }
+        
+        .section {
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .section {
+                margin-bottom: 2rem;
+            }
+        }
+        
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            line-height: 1.4;
+        }
+        
+        @media (min-width: 768px) {
+            .section-title {
+                font-size: 1.1rem;
+            }
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--accent);
+            margin-right: 0.75rem;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        
+        .btn {
+            padding: 0.875rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Work Sans', sans-serif;
+            letter-spacing: 0.01em;
+            width: 100%;
+            touch-action: manipulation;
+            -webkit-appearance: none;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (min-width: 768px) {
+            .btn {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.95rem;
+                width: auto;
+            }
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+        
+        @media (min-width: 768px) {
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-md);
+            }
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-secondary:active {
+            transform: scale(0.98);
+        }
+        
+        @media (min-width: 768px) {
+            .btn-secondary:hover {
+                background: var(--primary);
+                color: white;
+            }
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-success:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .btn-group {
+                flex-direction: row;
+                gap: 1rem;
+                margin-top: 2rem;
+            }
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        @media (min-width: 768px) {
+            .checkbox-group {
+                gap: 1rem;
+            }
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--bg-main);
+            min-height: 60px;
+            touch-action: manipulation;
+        }
+        
+        .checkbox-item:active {
+            transform: scale(0.99);
+        }
+        
+        @media (min-width: 768px) {
+            .checkbox-item:hover {
+                border-color: var(--primary);
+                background: white;
+                transform: translateX(4px);
+            }
+        }
+        
+        .checkbox-item.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(26, 58, 82, 0.05) 0%, rgba(26, 58, 82, 0.02) 100%);
+        }
+        
+        .checkbox-item input[type="checkbox"],
+        .checkbox-item input[type="radio"] {
+            margin-right: 0.75rem;
+            margin-top: 0.25rem;
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: var(--primary);
+            flex-shrink: 0;
+            min-width: 22px;
+        }
+        
+        .checkbox-label {
+            flex: 1;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+        
+        @media (min-width: 768px) {
+            .checkbox-label {
+                font-size: 0.95rem;
+            }
+        }
+        
+        .select-wrapper {
+            position: relative;
+            margin-top: 1rem;
+        }
+        
+        select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: 'Work Sans', sans-serif;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%231a3a52' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
+            min-height: 48px;
+        }
+        
+        @media (min-width: 768px) {
+            select {
+                padding: 0.875rem 1rem;
+                font-size: 0.95rem;
+            }
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 58, 82, 0.1);
+        }
+        
+        .filial-select {
+            display: none;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        .filial-select.show {
+            display: block;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 200px;
+            }
+        }
+        
+        .question-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--bg-main);
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        @media (min-width: 768px) {
+            .question-item {
+                margin-bottom: 1.5rem;
+                padding: 1.25rem;
+            }
+        }
+        
+        .question-text {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        
+        @media (min-width: 768px) {
+            .question-text {
+                font-size: 0.95rem;
+            }
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        @media (min-width: 768px) {
+            .radio-group {
+                gap: 2rem;
+            }
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            min-height: 44px;
+        }
+        
+        .radio-item input[type="radio"] {
+            margin-right: 0.5rem;
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            flex-shrink: 0;
+            min-width: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .radio-item input[type="radio"] {
+                width: 18px;
+                height: 18px;
+            }
+        }
+        
+        .radio-item label {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        
+        @media (min-width: 768px) {
+            .alert {
+                padding: 1rem 1.25rem;
+                align-items: center;
+                font-size: 0.9rem;
+            }
+        }
+        
+        .alert-info {
+            background: rgba(26, 58, 82, 0.08);
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .alert-success {
+            background: rgba(45, 122, 62, 0.08);
+            color: var(--success);
+            border-left: 4px solid var(--success);
+        }
+        
+        .alert-error {
+            background: rgba(201, 58, 58, 0.08);
+            color: var(--error);
+            border-left: 4px solid var(--error);
+        }
+        
+        .progress-bar {
+            height: 5px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        @media (min-width: 768px) {
+            .progress-bar {
+                height: 6px;
+                margin-bottom: 2rem;
+            }
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            transition: width 0.5s ease;
+            border-radius: 3px;
+        }
+        
+        .access-check {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--bg-main);
+            border-radius: 10px;
+            border: 2px solid var(--border);
+        }
+        
+        @media (min-width: 768px) {
+            .access-check {
+                flex-direction: row;
+                align-items: center;
+                gap: 1rem;
+                padding: 1.25rem;
+            }
+        }
+        
+        .access-check-label {
+            flex: 1;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        
+        @media (min-width: 768px) {
+            .access-check-label {
+                font-size: 1rem;
+            }
+        }
+        
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        
+        @media (min-width: 768px) {
+            .status-badge {
+                font-size: 0.85rem;
+            }
+        }
+        
+        .status-pending {
+            background: rgba(212, 165, 116, 0.15);
+            color: var(--accent);
+        }
+        
+        .status-success {
+            background: rgba(45, 122, 62, 0.15);
+            color: var(--success);
+        }
+        
+        .status-error {
+            background: rgba(201, 58, 58, 0.15);
+            color: var(--error);
+        }
+        
+        .mut-questions-preview {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--bg-main);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+        }
+        
+        @media (min-width: 768px) {
+            .mut-questions-preview {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+                padding: 1.25rem;
+            }
+        }
+        
+        .mut-questions-preview:active {
+            transform: scale(0.99);
+        }
+        
+        @media (min-width: 768px) {
+            .mut-questions-preview:hover {
+                border-color: var(--primary);
+                transform: translateX(4px);
+            }
+        }
+        
+        .mut-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .mut-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+        
+        @media (min-width: 768px) {
+            .mut-title {
+                font-size: 1rem;
+            }
+        }
+        
+        .mut-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+        
+        @media (min-width: 768px) {
+            .mut-desc {
+                font-size: 0.85rem;
+            }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 35, 50, 0.7);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 1000;
+            padding: 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        @media (min-width: 768px) {
+            .modal {
+                padding: 2rem;
+            }
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @media (min-width: 768px) {
+            .modal.show {
+                align-items: center;
+            }
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 0;
+            max-width: 900px;
+            width: 100%;
+            max-height: 100vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        @media (min-width: 768px) {
+            .modal-content {
+                border-radius: 16px;
+                max-height: 90vh;
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            padding: 1.25rem;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        @media (min-width: 768px) {
+            .modal-header {
+                padding: 2rem 2.5rem;
+            }
+        }
+        
+        .modal-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        
+        @media (min-width: 768px) {
+            .modal-title {
+                font-size: 1.75rem;
+            }
+        }
+        
+        .modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            touch-action: manipulation;
+        }
+        
+        @media (min-width: 768px) {
+            .modal-close {
+                width: 36px;
+                height: 36px;
+            }
+        }
+        
+        .modal-close:active {
+            transform: scale(0.95);
+        }
+        
+        @media (min-width: 768px) {
+            .modal-close:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: rotate(90deg);
+            }
+        }
+        
+        .modal-body {
+            padding: 1.25rem;
+        }
+        
+        @media (min-width: 768px) {
+            .modal-body {
+                padding: 2rem 2.5rem;
+            }
+        }
+        
+        .modal-footer {
+            padding: 1rem;
+            border-top: 2px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            position: sticky;
+            bottom: 0;
+            background: white;
+            z-index: 10;
+        }
+        
+        @media (min-width: 768px) {
+            .modal-footer {
+                padding: 1.5rem 2.5rem;
+                flex-direction: row;
+                justify-content: flex-end;
+                gap: 1rem;
+            }
+        }
+        
+        .mut-question {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-main);
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        @media (min-width: 768px) {
+            .mut-question {
+                margin-bottom: 2rem;
+                padding: 1.5rem;
+            }
+        }
+        
+        .mut-question.disabled {
+            opacity: 0.6;
+            background: #f5f5f5;
+            border-left-color: #ccc;
+        }
+        
+        .mut-question-number {
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        @media (min-width: 768px) {
+            .mut-question-number {
+                font-size: 0.8rem;
+            }
+        }
+        
+        .mut-question-text {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        @media (min-width: 768px) {
+            .mut-question-text {
+                font-size: 1rem;
+            }
+        }
+        
+        .mut-select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: 'Work Sans', sans-serif;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 48px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%231a3a52' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .mut-select {
+                padding: 0.875rem 1rem;
+                font-size: 0.95rem;
+            }
+        }
+        
+        .mut-select:disabled {
+            background: #f5f5f5;
+            cursor: not-allowed;
+            color: #999;
+            background-image: none;
+        }
+        
+        .mut-select:not(:disabled):focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 58, 82, 0.1);
+        }
+        
+        input[type="text"].mut-select {
+            background-image: none;
+            padding-right: 1rem;
+        }
+        
+        .auto-filled-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(45, 122, 62, 0.15);
+            color: var(--success);
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .auto-filled-badge {
+                font-size: 0.75rem;
+            }
+        }
+        
+        /* iOS Safari specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            select, .mut-select, input {
+                font-size: 16px !important;
+            }
+        }
+        
+        /* Prevent zoom on focus for small screens */
+        @media screen and (max-width: 767px) {
+            select, input, textarea {
+                font-size: 16px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+        
+        <!-- Page 1 -->
+        <div id="page1" class="page active">
+            <div class="card">
+                <h1>Kart Sifarişi Forması</h1>
+                
+                <!-- Header Information -->
+                <div class="header-info">
+                    <div class="header-item">
+                        <div class="header-label">Müəssisənin adı</div>
+                        <div class="header-value">Bank of Baku OJSC</div>
+                    </div>
+                    <div class="header-item">
+                        <div class="header-label">VÖEN</div>
+                        <div class="header-value">1234567890</div>
+                    </div>
+                </div>
+                
+                <!-- Asan Finans Check -->
+                <div class="section">
+                    <h2>Asan Finans Yoxlaması</h2>
+                    <div class="access-check">
+                        <div class="access-check-label">Asan Finans giriş hüququnu yoxlayın</div>
+                        <button class="btn btn-primary" onclick="checkAsanFinans()">Yoxla</button>
+                    </div>
+                    <div id="asanFinansStatus"></div>
+                </div>
+                
+                <!-- Order Side -->
+                <div class="section">
+                    <h2>Təhvil Alma Forması</h2>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item" id="deliveryOption1">
+                            <input type="radio" name="delivery" value="employer" onchange="handleDeliveryChange()">
+                            <span class="checkbox-label">Kartın işəgötürənə və ya onun nümayəndəsinə təhvil verilməsi</span>
+                        </label>
+                        
+                        <label class="checkbox-item" id="deliveryOption2">
+                            <input type="radio" name="delivery" value="self" onchange="handleDeliveryChange()">
+                            <span class="checkbox-label">Kart sahibinin özü tərəfindən götürülməsi</span>
+                        </label>
+                    </div>
+                    
+                    <div id="filialSelect" class="filial-select">
+                        <div class="select-wrapper">
+                            <select id="filialDropdown">
+                                <option value="">Filial seçin</option>
+                                <option value="f1">Nərimanov filialı</option>
+                                <option value="f2">28 May filialı</option>
+                                <option value="f3">Nizami filialı</option>
+                                <option value="f4">Nəsimi filialı</option>
+                                <option value="f5">Yasamal filialı</option>
+                                <option value="f6">Binəqədi filialı</option>
+                                <option value="f7">Xətai filialı</option>
+                                <option value="f8">Səbail filialı</option>
+                                <option value="f9">Suraxanı filialı</option>
+                                <option value="f10">Qaradağ filialı</option>
+                                <option value="f11">Xəzər filialı</option>
+                                <option value="f12">Pirallahı filialı</option>
+                                <option value="f13">Sumqayıt filialı</option>
+                                <option value="f14">Gəncə filialı</option>
+                                <option value="f15">Şirvan filialı</option>
+                                <option value="f16">Mingəçevir filialı</option>
+                                <option value="f17">Lənkəran filialı</option>
+                                <option value="f18">Şəki filialı</option>
+                                <option value="f19">Quba filialı</option>
+                                <option value="f20">Naxçıvan filialı</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FATCA/CRS Questions -->
+                <div class="section">
+                    <h2>FATCA/CRS Anketi</h2>
+                    <div id="fatcaQuestions"></div>
+                </div>
+                
+                <!-- MUT Questions Preview -->
+                <div class="section">
+                    <h2>MUT Sualları</h2>
+                    <div class="mut-questions-preview" onclick="openMutModal()">
+                        <div class="mut-info">
+                            <div class="mut-title">MUT Suallarını Doldurun</div>
+                            <div class="mut-desc">40 sual - 12 avtomatik, 28 müştəri tərəfindən seçilməli</div>
+                        </div>
+                        <button class="btn btn-secondary">Ətraflı</button>
+                    </div>
+                    <div id="mutCompletionStatus"></div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="goToPage2()">Növbəti Səhifə →</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page 2 -->
+        <div id="page2" class="page">
+            <div class="card">
+                <h1>Məlumatların Təsdiqi</h1>
+                
+                <div class="alert alert-info">
+                    <span>⚠️</span>
+                    <span>Zəhmət olmasa doldurduğunuz məlumatları yoxlayın və təsdiq edin.</span>
+                </div>
+                
+                <div class="section">
+                    <h2>Təhvil Alma</h2>
+                    <div id="summaryDelivery"></div>
+                </div>
+                
+                <div class="section">
+                    <h2>FATCA/CRS Cavabları</h2>
+                    <div id="summaryFatca"></div>
+                </div>
+                
+                <div class="section">
+                    <h2>MUT Sualları</h2>
+                    <div id="summaryMut"></div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToPage1()">← Geri</button>
+                    <button class="btn btn-success" onclick="submitForm()">Göndər ✓</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MUT Questions Modal -->
+    <div id="mutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">MUT Sualları</h2>
+                <button class="modal-close" onclick="closeMutModal()">×</button>
+            </div>
+            <div class="modal-body" id="mutModalBody"></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeMutModal()">Ləğv et</button>
+                <button class="btn btn-primary" onclick="saveMutAnswers()">Yadda saxla</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // FATCA/CRS Questions
+        const fatcaQuestions = [
+            { id: 'q1', text: 'ABŞ-da ünvanınız varmı?' },
+            { id: 'q2', text: 'ABŞ telefon nömrəniz varmı?' },
+            { id: 'q3', text: 'ABŞ bank hesabınız varmı?' },
+            { id: 'q4', text: 'ABŞ vergi ödəyicisinizmi?' },
+            { id: 'q5', text: 'ABŞ-da doğulmusunuzmu?' },
+            { id: 'q6', text: 'ABŞ vətəndaşısınızmı?' },
+            { id: 'q7', text: 'Başqa bir ölkədə vergi rezidentisinizmi?' },
+            { id: 'q8', text: 'Başqa ölkədə daimi yaşayış icazəniz varmı?' },
+            { id: 'q9', text: 'Başqa ölkədə bank hesabınız varmı?' },
+            { id: 'q10', text: 'Siyasi cəhətdən açıq şəxssinizmi?' },
+            { id: 'q11', text: 'Ailə üzvləriniz siyasi vəzifə daşıyırmı?' },
+            { id: 'q12', text: 'Beynəlxalq sanksiyaya məruz qalmısınızmı?' }
+        ];
+        
+        // MUT Questions (40 questions)
+        const mutQuestions = [
+            { id: 'm1', text: 'Maliyyə vəziyyətiniz nədir?', disabled: true, autoValue: 'Stabil' },
+            { id: 'm2', text: 'Aylıq gəliriniz nə qədərdir?', disabled: true, autoValue: '2000-5000 AZN' },
+            { id: 'm3', text: 'İş statuunuz nədir?', disabled: true, autoValue: 'Tam ştat işçi' },
+            { id: 'm4', text: 'İş təcrübəniz neçə ildir?', disabled: true, autoValue: '5-10 il' },
+            { id: 'm5', text: 'Təhsil səviyyəniz nədir?', disabled: true, autoValue: 'Ali təhsil' },
+            { id: 'm6', text: 'Ailə vəziyyətiniz nədir?', disabled: true, autoValue: 'Evli' },
+            { id: 'm7', text: 'Neçə nəfərlik ailəsiniz var?', disabled: true, autoValue: '3-4 nəfər' },
+            { id: 'm8', text: 'Mənziliniz varmı?', disabled: true, autoValue: 'Bəli, şəxsi' },
+            { id: 'm9', text: 'Avtomobiliniz varmı?', disabled: true, autoValue: 'Bəli' },
+            { id: 'm10', text: 'Digər kreditləriniz varmı?', disabled: true, autoValue: 'Xeyr' },
+            { id: 'm11', text: 'Kredit tarixiniz necədir?', disabled: true, autoValue: 'Yaxşı' },
+            { id: 'm12', text: 'Bank hesabınız neçə ildir aktivdir?', disabled: true, autoValue: '3+ il' },
+            { id: 'm13', text: 'Kart istifadə məqsədiniz nədir?', disabled: false },
+            { id: 'm14', text: 'Aylıq kart xərcləriniz nə qədər olacaq?', disabled: false },
+            { id: 'm15', text: 'Onlayn alış-veriş edirsinizmi?', disabled: false },
+            { id: 'm16', text: 'Xaricdə kart istifadə edəcəksinizmi?', disabled: false },
+            { id: 'm17', text: 'Əsas kart xərciniz hansı sahədədir?', disabled: false },
+            { id: 'm18', text: 'ATM istifadə tezliyiniz necədir?', disabled: false },
+            { id: 'm19', text: 'Mobil bank istifadə edirsinizmi?', disabled: false },
+            { id: 'm20', text: 'SMS bildiriş xidmətini istəyirsinizmi?', disabled: false },
+            { id: 'm21', text: 'Cashback proqramına marağınız varmı?', disabled: false },
+            { id: 'm22', text: 'Bonus proqramlarını izləyirsinizmi?', disabled: false },
+            { id: 'm23', text: 'Kart sığortası istəyirsinizmi?', disabled: false },
+            { id: 'm24', text: 'Premium xidmətlərə ehtiyacınız varmı?', disabled: false },
+            { id: 'm25', text: 'Kredit limitinə ehtiyacınız varmı?', disabled: false },
+            { id: 'm26', text: 'Taksit imkanından istifadə edəcəksinizmi?', disabled: false },
+            { id: 'm27', text: 'Kommunal ödənişləri kartla edirsinizmi?', disabled: false },
+            { id: 'm28', text: 'Abunə xidmətləri üçün kart istifadə edirsinizmi?', disabled: false },
+            { id: 'm29', text: 'Yığım hesabınız varmı?', disabled: false },
+            { id: 'm30', text: 'Depozit hesabınız varmı?', disabled: false },
+            { id: 'm31', text: 'İnvestisiya planlarınız varmı?', disabled: false },
+            { id: 'm32', text: 'Sığorta məhsullarına marağınız varmı?', disabled: false },
+            { id: 'm33', text: 'Kart PIN kodu dəyişdirə bilirsinizmi?', disabled: false },
+            { id: 'm34', text: 'Kart limiti artırılmasına ehtiyacınız olacaqmı?', disabled: false },
+            { id: 'm35', text: 'Virtual karta ehtiyacınız varmı?', disabled: false },
+            { id: 'm36', text: 'Əlavə kart sifariş edəcəksinizmi?', disabled: false },
+            { id: 'm37', text: 'Kart dizaynını seçmək istəyirsinizmi?', disabled: false },
+            { id: 'm38', text: '3D Secure xidmətini aktivləşdirməli?', disabled: false },
+            { id: 'm39', text: 'Kart bloklama xidmətindən məlumatlısınızmı?', disabled: false },
+            { id: 'm40', text: 'Müştəri xidmətləri ilə əlaqə üsulunuz nədir?', disabled: false }
+        ];
+        
+        const mutOptions = [
+            'Seçilməyib',
+            'Şəxsi xərclər',
+            'Biznes xərcləri',
+            '500 AZN-dən az',
+            '500-1000 AZN',
+            '1000-2000 AZN',
+            '2000+ AZN',
+            'Bəli, tez-tez',
+            'Bəli, nadir hallarda',
+            'Xeyr',
+            'Marketlər',
+            'Restoran və kafe',
+            'Onlayn alış-veriş',
+            'Kommunal xidmətlər',
+            'Təhsil və kitab',
+            'Səyahət',
+            'Sağlamlıq',
+            'Əyləncə',
+            'Hər gün',
+            'Həftədə bir dəfə',
+            'Ayda bir dəfə',
+            'Nadir hallarda',
+            'Zəng',
+            'Mesaj',
+            'Mobil tətbiq',
+            'Filial'
+        ];
+        
+        // Initialize
+        let formData = loadFromLocalStorage() || {
+            asanFinansAccess: null,
+            delivery: null,
+            filial: null,
+            fatca: {},
+            mut: {}
+        };
+        
+        // Initialize FATCA questions
+        function initFatcaQuestions() {
+            const container = document.getElementById('fatcaQuestions');
+            container.innerHTML = fatcaQuestions.map(q => `
+                <div class="question-item">
+                    <div class="question-text">${q.text}</div>
+                    <div class="radio-group">
+                        <label class="radio-item">
+                            <input type="radio" name="${q.id}" value="yes" onchange="saveFatcaAnswer('${q.id}', 'yes')" ${formData.fatca[q.id] === 'yes' ? 'checked' : ''}>
+                            <span>Bəli</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="${q.id}" value="no" onchange="saveFatcaAnswer('${q.id}', 'no')" ${formData.fatca[q.id] === 'no' ? 'checked' : ''}>
+                            <span>Xeyr</span>
+                        </label>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Initialize MUT questions in modal
+        function initMutQuestions() {
+            const container = document.getElementById('mutModalBody');
+            container.innerHTML = mutQuestions.map((q, index) => `
+                <div class="mut-question ${q.disabled ? 'disabled' : ''}">
+                    <div class="mut-question-number">Sual ${index + 1}/40</div>
+                    <div class="mut-question-text">
+                        ${q.text}
+                        ${q.disabled ? '<span class="auto-filled-badge">Avtomatik</span>' : ''}
+                    </div>
+                    ${q.disabled ? 
+                        `<input type="text" class="mut-select" value="${q.autoValue}" disabled>` :
+                        `<select class="mut-select" id="${q.id}" onchange="saveMutAnswer('${q.id}', this.value)">
+                            ${mutOptions.map(opt => 
+                                `<option value="${opt}" ${formData.mut[q.id] === opt ? 'selected' : ''}>${opt}</option>`
+                            ).join('')}
+                        </select>`
+                    }
+                </div>
+            `).join('');
+            
+            // Restore saved answers for disabled questions
+            mutQuestions.filter(q => q.disabled).forEach(q => {
+                formData.mut[q.id] = q.autoValue;
+            });
+        }
+        
+        // Check Asan Finans access
+        async function checkAsanFinans() {
+            const statusDiv = document.getElementById('asanFinansStatus');
+            statusDiv.innerHTML = '<div class="alert alert-info" style="margin-top: 1rem;"><span>🔄</span> Yoxlanılır...</div>';
+            
+            // Simulate backend check
+            setTimeout(() => {
+                // Simulate random result
+                const hasAccess = Math.random() > 0.3;
+                formData.asanFinansAccess = hasAccess;
+                
+                if (hasAccess) {
+                    statusDiv.innerHTML = '<div class="alert alert-success" style="margin-top: 1rem;"><span>✓</span> Giriş hüququ mövcuddur</div>';
+                } else {
+                    statusDiv.innerHTML = '<div class="alert alert-error" style="margin-top: 1rem;"><span>✗</span> Giriş hüququ tapılmadı. Zəhmət olmasa sistem administratoru ilə əlaqə saxlayın.</div>';
+                }
+                
+                saveToLocalStorage();
+            }, 1500);
+        }
+        
+        // Handle delivery change
+        function handleDeliveryChange() {
+            const selfDelivery = document.querySelector('input[name="delivery"][value="self"]').checked;
+            const filialSelect = document.getElementById('filialSelect');
+            const option1 = document.getElementById('deliveryOption1');
+            const option2 = document.getElementById('deliveryOption2');
+            
+            if (selfDelivery) {
+                filialSelect.classList.add('show');
+                option2.classList.add('selected');
+                option1.classList.remove('selected');
+                formData.delivery = 'self';
+            } else {
+                filialSelect.classList.remove('show');
+                option1.classList.add('selected');
+                option2.classList.remove('selected');
+                formData.delivery = 'employer';
+                formData.filial = null;
+                document.getElementById('filialDropdown').value = '';
+            }
+            
+            saveToLocalStorage();
+        }
+        
+        // Save filial selection
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('filialDropdown').addEventListener('change', (e) => {
+                formData.filial = e.target.value;
+                saveToLocalStorage();
+            });
+        });
+        
+        // Save FATCA answer
+        function saveFatcaAnswer(questionId, value) {
+            formData.fatca[questionId] = value;
+            saveToLocalStorage();
+        }
+        
+        // Save MUT answer
+        function saveMutAnswer(questionId, value) {
+            formData.mut[questionId] = value;
+            saveToLocalStorage();
+        }
+        
+        // Open MUT modal
+        function openMutModal() {
+            initMutQuestions();
+            document.getElementById('mutModal').classList.add('show');
+        }
+        
+        // Close MUT modal
+        function closeMutModal() {
+            document.getElementById('mutModal').classList.remove('show');
+        }
+        
+        // Save MUT answers
+        function saveMutAnswers() {
+            const answeredCount = Object.keys(formData.mut).filter(key => {
+                const question = mutQuestions.find(q => q.id === key);
+                return !question.disabled && formData.mut[key] && formData.mut[key] !== 'Seçilməyib';
+            }).length;
+            
+            const statusDiv = document.getElementById('mutCompletionStatus');
+            if (answeredCount === 28) {
+                statusDiv.innerHTML = '<div class="alert alert-success" style="margin-top: 1rem;"><span>✓</span> Bütün suallar cavablandırılıb</div>';
+            } else {
+                statusDiv.innerHTML = `<div class="alert alert-info" style="margin-top: 1rem;"><span>ℹ</span> ${answeredCount}/28 sual cavablandırılıb</div>`;
+            }
+            
+            closeMutModal();
+            saveToLocalStorage();
+        }
+        
+        // Local storage functions
+        function saveToLocalStorage() {
+            localStorage.setItem('bankCardFormData', JSON.stringify(formData));
+        }
+        
+        function loadFromLocalStorage() {
+            const data = localStorage.getItem('bankCardFormData');
+            return data ? JSON.parse(data) : null;
+        }
+        
+        // Navigation
+        function goToPage2() {
+            // Validate required fields
+            if (!formData.delivery) {
+                alert('Zəhmət olmasa təhvil alma formasını seçin');
+                return;
+            }
+            
+            if (formData.delivery === 'self' && !formData.filial) {
+                alert('Zəhmət olmasa filial seçin');
+                return;
+            }
+            
+            const fatcaAnswered = Object.keys(formData.fatca).length === fatcaQuestions.length;
+            if (!fatcaAnswered) {
+                alert('Zəhmət olmasa bütün FATCA/CRS suallarını cavablandırın');
+                return;
+            }
+            
+            const mutAnsweredCount = Object.keys(formData.mut).filter(key => {
+                const question = mutQuestions.find(q => q.id === key);
+                return !question || (!question.disabled && formData.mut[key] && formData.mut[key] !== 'Seçilməyib');
+            }).length;
+            
+            if (mutAnsweredCount < 28) {
+                alert('Zəhmət olmasa bütün MUT suallarını cavablandırın');
+                return;
+            }
+            
+            // Show summary
+            showSummary();
+            
+            document.getElementById('page1').classList.remove('active');
+            document.getElementById('page2').classList.add('active');
+            document.getElementById('progressFill').style.width = '100%';
+            window.scrollTo(0, 0);
+        }
+        
+        function goToPage1() {
+            document.getElementById('page2').classList.remove('active');
+            document.getElementById('page1').classList.add('active');
+            document.getElementById('progressFill').style.width = '50%';
+            window.scrollTo(0, 0);
+        }
+        
+        // Show summary
+        function showSummary() {
+            // Delivery summary
+            const deliverySummary = document.getElementById('summaryDelivery');
+            let deliveryText = formData.delivery === 'self' ? 'Kart sahibinin özü tərəfindən götürülməsi' : 'Kartın işəgötürənə və ya onun nümayəndəsinə təhvil verilməsi';
+            if (formData.filial) {
+                const selectedFilial = document.querySelector(`#filialDropdown option[value="${formData.filial}"]`).text;
+                deliveryText += ` - ${selectedFilial}`;
+            }
+            deliverySummary.innerHTML = `<div class="question-item"><strong>${deliveryText}</strong></div>`;
+            
+            // FATCA summary
+            const fatcaSummary = document.getElementById('summaryFatca');
+            fatcaSummary.innerHTML = fatcaQuestions.map(q => `
+                <div class="question-item">
+                    <div class="question-text">${q.text}</div>
+                    <div><strong>${formData.fatca[q.id] === 'yes' ? 'Bəli' : 'Xeyr'}</strong></div>
+                </div>
+            `).join('');
+            
+            // MUT summary
+            const mutSummary = document.getElementById('summaryMut');
+            const answeredMut = mutQuestions.filter(q => formData.mut[q.id]).slice(0, 5);
+            mutSummary.innerHTML = `
+                <div class="alert alert-success">
+                    <span>✓</span>
+                    <span>40 sualın hamısı cavablandırılıb (12 avtomatik, 28 manual)</span>
+                </div>
+                <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                    İlk 5 cavab nümunəsi:
+                </div>
+                ${answeredMut.map(q => `
+                    <div class="question-item">
+                        <div class="question-text">${q.text}</div>
+                        <div><strong>${formData.mut[q.id]}</strong></div>
+                    </div>
+                `).join('')}
+            `;
+        }
+        
+        // Submit form
+        async function submitForm() {
+            if (!confirm('Formanı göndərmək istədiyinizə əminsiniz?')) {
+                return;
+            }
+            
+            // Prepare data for backend
+            const submitData = {
+                companyName: 'Bank of Baku OJSC',
+                voen: '1234567890',
+                asanFinansAccess: formData.asanFinansAccess,
+                delivery: formData.delivery,
+                filial: formData.filial,
+                fatcaAnswers: formData.fatca,
+                mutAnswers: formData.mut,
+                submittedAt: new Date().toISOString()
+            };
+            
+            console.log('Submitting data:', submitData);
+            
+            // Simulate API call
+            alert('Form uğurla göndərildi! ✓\n\nMəlumatlar backend sistemə ötürüldü.');
+            
+            // Clear local storage
+            localStorage.removeItem('bankCardFormData');
+            
+            // Reload page
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initFatcaQuestions();
+            
+            // Restore form state
+            if (formData.delivery) {
+                document.querySelector(`input[name="delivery"][value="${formData.delivery}"]`).checked = true;
+                handleDeliveryChange();
+            }
+            
+            if (formData.filial) {
+                document.getElementById('filialDropdown').value = formData.filial;
+            }
+            
+            if (formData.asanFinansAccess !== null) {
+                const statusDiv = document.getElementById('asanFinansStatus');
+                if (formData.asanFinansAccess) {
+                    statusDiv.innerHTML = '<div class="alert alert-success" style="margin-top: 1rem;"><span>✓</span> Giriş hüququ mövcuddur</div>';
+                } else {
+                    statusDiv.innerHTML = '<div class="alert alert-error" style="margin-top: 1rem;"><span>✗</span> Giriş hüququ tapılmadı</div>';
+                }
+            }
+            
+            // Update progress
+            document.getElementById('progressFill').style.width = '50%';
+        });
+    </script>
+</body>
+</html>
