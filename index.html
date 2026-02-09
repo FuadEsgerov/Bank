@@ -2,76 +2,91 @@
 <html lang="az">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Bank Kart Sifarişi</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap');
         
         :root {
-            --primary: #1a3a52;
-            --primary-light: #2c5672;
-            --accent: #d4a574;
+            --primary: #00A3C9;
+            --primary-dark: #008aad;
+            --primary-light: #33b5d5;
+            --primary-lighter: #66c7e1;
+            --primary-pale: #e6f7fb;
             --bg-main: #fafbfc;
             --bg-section: #ffffff;
             --text-primary: #1a2332;
             --text-secondary: #5f6b7a;
             --border: #e1e6eb;
-            --success: #2d7a3e;
+            --success: #00A3C9;
             --error: #c93a3a;
-            --shadow-sm: 0 1px 3px rgba(26, 58, 82, 0.08);
-            --shadow-md: 0 4px 12px rgba(26, 58, 82, 0.12);
-            --shadow-lg: 0 8px 24px rgba(26, 58, 82, 0.16);
+            --warning: #00A3C9;
+            --shadow-sm: 0 1px 3px rgba(0, 163, 201, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 163, 201, 0.12);
+            --shadow-lg: 0 8px 24px rgba(0, 163, 201, 0.16);
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html {
+            -webkit-text-size-adjust: 100%;
         }
         
         body {
-            font-family: 'Work Sans', sans-serif;
+            font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
-            padding: 2rem 1rem;
+            padding: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            body { padding: 2rem 1rem; }
         }
         
         .container {
             max-width: 800px;
             margin: 0 auto;
+            width: 100%;
         }
         
         .page {
             display: none;
-            animation: fadeIn 0.4s ease-out;
         }
         
-        .page.active {
+        .page.active { 
             display: block;
+            animation: fadeIn 0.3s ease-out;
         }
         
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .card {
             background: var(--bg-section);
-            border-radius: 16px;
-            padding: 2.5rem;
-            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
             box-shadow: var(--shadow-md);
             border: 1px solid var(--border);
             position: relative;
             overflow: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            .card {
+                border-radius: 16px;
+                padding: 2.5rem;
+                margin-bottom: 1.5rem;
+            }
         }
         
         .card::before {
@@ -81,37 +96,66 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+        }
+        
+        .card.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            user-select: none;
         }
         
         h1 {
             font-family: 'Crimson Pro', serif;
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary);
             margin-bottom: 0.5rem;
             letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+        
+        @media (min-width: 768px) {
+            h1 { font-size: 2rem; }
         }
         
         h2 {
             font-family: 'Crimson Pro', serif;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 600;
             color: var(--primary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             padding-bottom: 0.75rem;
             border-bottom: 2px solid var(--border);
+            line-height: 1.3;
+        }
+        
+        @media (min-width: 768px) {
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
         }
         
         .header-info {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            padding: 1.25rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            border-radius: 12px;
-            margin-bottom: 2rem;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            padding: 1.5rem;
+            background: var(--primary);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
             color: white;
+        }
+        
+        @media (min-width: 480px) {
+            .header-info {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+                padding: 1.5rem 1.75rem;
+                border-radius: 12px;
+                margin-bottom: 2rem;
+            }
         }
         
         .header-item {
@@ -120,63 +164,96 @@
         }
         
         .header-label {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            opacity: 0.8;
-            margin-bottom: 0.25rem;
-            font-weight: 500;
+            opacity: 0.9;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
         }
         
         .header-value {
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: -0.01em;
+            word-break: break-word;
+            color: #ffffff;
+        }
+        
+        @media (min-width: 768px) {
+            .header-value {
+                font-size: 1.1rem;
+            }
         }
         
         .section {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
         
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
+        @media (min-width: 768px) {
+            .section {
+                margin-bottom: 2rem;
+            }
         }
         
         .section-title::before {
             content: '';
             width: 4px;
             height: 20px;
-            background: var(--accent);
+            background: var(--primary);
             margin-right: 0.75rem;
             border-radius: 2px;
+            flex-shrink: 0;
         }
         
         .btn {
-            padding: 0.75rem 1.5rem;
+            padding: 0.875rem 1.25rem;
             border: none;
             border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 500;
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             font-family: 'Work Sans', sans-serif;
             letter-spacing: 0.01em;
+            width: 100%;
+            -webkit-appearance: none;
+            min-height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (min-width: 768px) {
+            .btn {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.95rem;
+                width: auto;
+            }
+        }
+        
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: var(--primary);
             color: white;
             box-shadow: var(--shadow-sm);
         }
         
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+        .btn-primary:not(:disabled):active {
+            transform: scale(0.98);
+            background: var(--primary-dark);
+        }
+        
+        @media (hover: hover) {
+            .btn-primary:not(:disabled):hover {
+                background: var(--primary-dark);
+                box-shadow: var(--shadow-md);
+            }
         }
         
         .btn-secondary {
@@ -185,26 +262,41 @@
             border: 2px solid var(--primary);
         }
         
-        .btn-secondary:hover {
-            background: var(--primary);
-            color: white;
+        .btn-secondary:not(:disabled):active {
+            transform: scale(0.98);
+        }
+        
+        @media (hover: hover) {
+            .btn-secondary:not(:disabled):hover {
+                background: var(--primary);
+                color: white;
+            }
         }
         
         .btn-success {
-            background: var(--success);
+            background: var(--primary);
             color: white;
         }
         
         .btn-group {
             display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .btn-group {
+                flex-direction: row;
+                gap: 1rem;
+                margin-top: 2rem;
+            }
         }
         
         .checkbox-group {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.75rem;
         }
         
         .checkbox-item {
@@ -214,144 +306,100 @@
             border: 2px solid var(--border);
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             background: var(--bg-main);
-        }
-        
-        .checkbox-item:hover {
-            border-color: var(--primary);
-            background: white;
-            transform: translateX(4px);
+            min-height: 60px;
         }
         
         .checkbox-item.selected {
             border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(26, 58, 82, 0.05) 0%, rgba(26, 58, 82, 0.02) 100%);
+            background: var(--primary-pale);
         }
         
         .checkbox-item input[type="checkbox"],
         .checkbox-item input[type="radio"] {
             margin-right: 0.75rem;
             margin-top: 0.25rem;
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             cursor: pointer;
             accent-color: var(--primary);
+            flex-shrink: 0;
+            min-width: 22px;
         }
         
         .checkbox-label {
             flex: 1;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-primary);
             line-height: 1.5;
         }
         
-        .select-wrapper {
-            position: relative;
-            margin-top: 1rem;
+        select, .form-input, .mut-select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: 'Work Sans', sans-serif;
+            background: white;
+            transition: all 0.2s ease;
+            min-height: 48px;
         }
         
         select {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-family: 'Work Sans', sans-serif;
-            background: white;
             cursor: pointer;
-            transition: all 0.3s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%231a3a52' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2300A3C9' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 1rem center;
             padding-right: 2.5rem;
         }
         
-        select:focus {
+        select:focus, .form-input:focus, .mut-select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 58, 82, 0.1);
+            box-shadow: 0 0 0 3px var(--primary-pale);
+        }
+        
+        textarea.mut-select {
+            min-height: 100px;
+            resize: vertical;
+            background-image: none;
         }
         
         .filial-select {
             display: none;
-            animation: slideDown 0.3s ease-out;
+            margin-top: 1rem;
         }
         
         .filial-select.show {
             display: block;
         }
         
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                max-height: 0;
-            }
-            to {
-                opacity: 1;
-                max-height: 200px;
-            }
-        }
-        
-        .question-item {
-            margin-bottom: 1.5rem;
-            padding: 1.25rem;
-            background: var(--bg-main);
-            border-radius: 10px;
-            border-left: 4px solid var(--accent);
-        }
-        
-        .question-text {
-            font-size: 0.95rem;
-            color: var(--text-primary);
-            margin-bottom: 0.75rem;
-            font-weight: 500;
-        }
-        
-        .radio-group {
-            display: flex;
-            gap: 2rem;
-        }
-        
-        .radio-item {
-            display: flex;
-            align-items: center;
-        }
-        
-        .radio-item input[type="radio"] {
-            margin-right: 0.5rem;
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary);
-        }
-        
-        .radio-item label {
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            cursor: pointer;
-        }
-        
         .alert {
-            padding: 1rem 1.25rem;
+            padding: 1rem;
             border-radius: 8px;
             margin-bottom: 1rem;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 0.75rem;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            line-height: 1.5;
         }
         
         .alert-info {
-            background: rgba(26, 58, 82, 0.08);
-            color: var(--primary);
+            background: var(--primary-pale);
+            color: var(--primary-dark);
             border-left: 4px solid var(--primary);
         }
         
         .alert-success {
-            background: rgba(45, 122, 62, 0.08);
-            color: var(--success);
-            border-left: 4px solid var(--success);
+            background: var(--primary-pale);
+            color: var(--primary-dark);
+            border-left: 4px solid var(--primary);
         }
         
         .alert-error {
@@ -360,91 +408,191 @@
             border-left: 4px solid var(--error);
         }
         
+        .alert-warning {
+            background: var(--primary-pale);
+            color: var(--primary-dark);
+            border-left: 4px solid var(--primary-light);
+        }
+        
         .progress-bar {
-            height: 6px;
+            height: 5px;
             background: var(--border);
             border-radius: 3px;
             overflow: hidden;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
             transition: width 0.5s ease;
             border-radius: 3px;
         }
         
         .access-check {
             display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.25rem;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 1rem;
             background: var(--bg-main);
             border-radius: 10px;
             border: 2px solid var(--border);
+        }
+        
+        @media (min-width: 768px) {
+            .access-check {
+                flex-direction: row;
+                align-items: center;
+                gap: 1rem;
+                padding: 1.25rem;
+            }
         }
         
         .access-check-label {
             flex: 1;
             font-weight: 500;
             color: var(--text-primary);
+            font-size: 0.9rem;
         }
         
-        .status-badge {
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-        }
-        
-        .status-pending {
-            background: rgba(212, 165, 116, 0.15);
-            color: var(--accent);
-        }
-        
-        .status-success {
-            background: rgba(45, 122, 62, 0.15);
-            color: var(--success);
-        }
-        
-        .status-error {
-            background: rgba(201, 58, 58, 0.15);
-            color: var(--error);
-        }
-        
-        .mut-questions-preview {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1.25rem;
+        .consent-box {
+            padding: 1rem;
             background: var(--bg-main);
             border: 2px solid var(--border);
             border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            margin-top: 1rem;
         }
         
-        .mut-questions-preview:hover {
-            border-color: var(--primary);
-            transform: translateX(4px);
-        }
-        
-        .mut-info {
+        .consent-checkbox {
             display: flex;
-            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+            cursor: pointer;
         }
         
-        .mut-title {
-            font-weight: 600;
+        .consent-checkbox input[type="checkbox"] {
+            margin-top: 0.25rem;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary);
+            flex-shrink: 0;
+        }
+        
+        .consent-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+        
+        .consent-link {
             color: var(--primary);
-            margin-bottom: 0.25rem;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: underline;
         }
         
-        .mut-desc {
+        .consent-link:active {
+            color: var(--primary-dark);
+        }
+        
+        .toggle-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--bg-main);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .toggle-item.error {
+            border-left-color: var(--error);
+            background: rgba(201, 58, 58, 0.05);
+        }
+        
+        .toggle-text {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            line-height: 1.5;
+            flex: 1;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 56px;
+            height: 30px;
+            flex-shrink: 0;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .3s;
+            border-radius: 30px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+        
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+        
+        .toggle-switch input:disabled + .toggle-slider {
+            background-color: var(--error);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+            -webkit-transform: translateX(26px);
+        }
+        
+        .toggle-labels {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .toggle-label {
             font-size: 0.85rem;
+            font-weight: 600;
             color: var(--text-secondary);
+            min-width: 35px;
+            text-align: center;
+        }
+        
+        .toggle-label.active {
+            color: var(--primary);
         }
         
         .modal {
@@ -454,56 +602,68 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(26, 35, 50, 0.7);
-            backdrop-filter: blur(4px);
-            z-index: 1000;
-            padding: 2rem;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9999;
+            padding: 0;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        @media (min-width: 768px) {
+            .modal {
+                padding: 2rem;
+            }
         }
         
         .modal.show {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
-            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @media (min-width: 768px) {
+            .modal.show {
+                align-items: center;
+            }
         }
         
         .modal-content {
             background: white;
-            border-radius: 16px;
+            border-radius: 0;
             max-width: 900px;
             width: 100%;
-            max-height: 90vh;
+            max-height: 100vh;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             box-shadow: var(--shadow-lg);
-            animation: slideUp 0.3s ease-out;
         }
         
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+        @media (min-width: 768px) {
+            .modal-content {
+                border-radius: 16px;
+                max-height: 90vh;
             }
         }
         
         .modal-header {
-            padding: 2rem 2.5rem;
+            padding: 1.25rem;
             border-bottom: 2px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: var(--primary);
             color: white;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
         
         .modal-title {
             font-family: 'Crimson Pro', serif;
-            font-size: 1.75rem;
+            font-size: 1.25rem;
             font-weight: 700;
+            color: white;
         }
         
         .modal-close {
@@ -511,163 +671,162 @@
             border: none;
             color: white;
             font-size: 1.5rem;
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            flex-shrink: 0;
         }
         
-        .modal-close:hover {
+        .modal-close:active {
             background: rgba(255, 255, 255, 0.3);
-            transform: rotate(90deg);
         }
         
         .modal-body {
-            padding: 2rem 2.5rem;
+            padding: 1.25rem;
+        }
+        
+        @media (min-width: 768px) {
+            .modal-body {
+                padding: 2rem 2.5rem;
+            }
+        }
+        
+        .modal-footer {
+            padding: 1rem;
+            border-top: 2px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            position: -webkit-sticky;
+            position: sticky;
+            bottom: 0;
+            background: white;
+        }
+        
+        @media (min-width: 768px) {
+            .modal-footer {
+                padding: 1.5rem 2.5rem;
+                flex-direction: row;
+                justify-content: flex-end;
+                gap: 1rem;
+            }
         }
         
         .mut-question {
-            margin-bottom: 2rem;
-            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
             background: var(--bg-main);
             border-radius: 10px;
-            border-left: 4px solid var(--accent);
+            border-left: 4px solid var(--primary-light);
         }
         
-        .mut-question.disabled {
-            opacity: 0.6;
-            background: #f5f5f5;
-            border-left-color: #ccc;
+        .mut-question.mandatory {
+            border-left-color: var(--primary);
         }
         
         .mut-question-number {
-            font-size: 0.8rem;
-            color: var(--accent);
+            font-size: 0.75rem;
+            color: var(--primary);
             font-weight: 600;
             margin-bottom: 0.5rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
         }
         
         .mut-question-text {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 1rem;
+            line-height: 1.5;
         }
         
-        .mut-select {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-family: 'Work Sans', sans-serif;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .question-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--bg-main);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-light);
         }
         
-        .mut-select:disabled {
-            background: #f5f5f5;
-            cursor: not-allowed;
-            color: #999;
+        .question-text {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            line-height: 1.5;
         }
         
-        .mut-select:not(:disabled):focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 58, 82, 0.1);
-        }
-        
-        .auto-filled-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: rgba(45, 122, 62, 0.15);
-            color: var(--success);
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-left: 0.5rem;
-        }
-        
-        @media (max-width: 768px) {
-            body {
-                padding: 1rem;
-            }
-            
-            .card {
-                padding: 1.5rem;
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-            }
-            
-            .header-info {
-                grid-template-columns: 1fr;
-            }
-            
-            .btn-group {
-                flex-direction: column;
-            }
-            
-            .radio-group {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .modal-content {
-                margin: 1rem;
-            }
-            
-            .modal-header,
-            .modal-body {
-                padding: 1.5rem;
+        @media screen and (max-width: 767px) {
+            select, input, textarea {
+                font-size: 16px !important;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Progress Bar -->
         <div class="progress-bar">
             <div class="progress-fill" id="progressFill" style="width: 0%"></div>
         </div>
         
-        <!-- Page 1 -->
         <div id="page1" class="page active">
             <div class="card">
                 <h1>Kart Sifarişi Forması</h1>
                 
-                <!-- Header Information -->
-                <div class="header-info">
+                <div class="header-info" id="headerInfo">
                     <div class="header-item">
                         <div class="header-label">Müəssisənin adı</div>
-                        <div class="header-value">Bank of Baku OJSC</div>
+                        <div class="header-value" id="companyName">Yüklənir...</div>
                     </div>
                     <div class="header-item">
                         <div class="header-label">VÖEN</div>
-                        <div class="header-value">1234567890</div>
+                        <div class="header-value" id="voen">Yüklənir...</div>
+                    </div>
+                    <div class="header-item">
+                        <div class="header-label">Ad Soyad</div>
+                        <div class="header-value" id="fullNameDisplay">Yüklənir...</div>
                     </div>
                 </div>
                 
-                <!-- Asan Finans Check -->
                 <div class="section">
                     <h2>Asan Finans Yoxlaması</h2>
-                    <div class="access-check">
+                    
+                    <div class="consent-box">
+                        <label class="consent-checkbox">
+                            <input type="checkbox" id="preConsentCheck" onchange="handlePreConsentChange()">
+                            <div class="consent-text">
+                                Məlumatlarımın 
+                                <span class="consent-link" onclick="showTermsModal('akb')">"Azərbaycan Kredit Bürosu"</span>, 
+                                <span class="consent-link" onclick="showTermsModal('asan')">"ASAN Finans"</span> 
+                                və digər məlumat bazalarından sorğu edilməsinə razılıq verirəm.
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="access-check" style="margin-top: 1rem;">
                         <div class="access-check-label">Asan Finans giriş hüququnu yoxlayın</div>
-                        <button class="btn btn-primary" onclick="checkAsanFinans()">Yoxla</button>
+                        <button class="btn btn-primary" id="checkBtn" onclick="checkAsanFinans()" disabled>Yoxla</button>
                     </div>
                     <div id="asanFinansStatus"></div>
+                    
+                    <div class="consent-box" id="consentBox" style="display: none;">
+                        <label class="consent-checkbox">
+                            <input type="checkbox" id="dataConsentCheck" onchange="handleConsentChange()">
+                            <div class="consent-text">
+                                Məlumatlarımın 
+                                <span class="consent-link" onclick="showTermsModal('akb')">"Azərbaycan Kredit Bürosu"</span>, 
+                                <span class="consent-link" onclick="showTermsModal('asan')">"ASAN Finans"</span> 
+                                və digər məlumat bazalarından sorğu edilməsinə razılıq verirəm.
+                            </div>
+                        </label>
+                    </div>
                 </div>
                 
-                <!-- Order Side -->
-                <div class="section">
+                <div class="section" id="deliverySection">
                     <h2>Təhvil Alma Forması</h2>
                     <div class="checkbox-group">
                         <label class="checkbox-item" id="deliveryOption1">
@@ -682,60 +841,55 @@
                     </div>
                     
                     <div id="filialSelect" class="filial-select">
-                        <div class="select-wrapper">
-                            <select id="filialDropdown">
-                                <option value="">Filial seçin</option>
-                                <option value="f1">Nərimanov filialı</option>
-                                <option value="f2">28 May filialı</option>
-                                <option value="f3">Nizami filialı</option>
-                                <option value="f4">Nəsimi filialı</option>
-                                <option value="f5">Yasamal filialı</option>
-                                <option value="f6">Binəqədi filialı</option>
-                                <option value="f7">Xətai filialı</option>
-                                <option value="f8">Səbail filialı</option>
-                                <option value="f9">Suraxanı filialı</option>
-                                <option value="f10">Qaradağ filialı</option>
-                                <option value="f11">Xəzər filialı</option>
-                                <option value="f12">Pirallahı filialı</option>
-                                <option value="f13">Sumqayıt filialı</option>
-                                <option value="f14">Gəncə filialı</option>
-                                <option value="f15">Şirvan filialı</option>
-                                <option value="f16">Mingəçevir filialı</option>
-                                <option value="f17">Lənkəran filialı</option>
-                                <option value="f18">Şəki filialı</option>
-                                <option value="f19">Quba filialı</option>
-                                <option value="f20">Naxçıvan filialı</option>
-                            </select>
-                        </div>
+                        <select id="filialDropdown">
+                            <option value="">Filial seçin</option>
+                            <option value="f1">Nərimanov filialı</option>
+                            <option value="f2">28 May filialı</option>
+                            <option value="f3">Nizami filialı</option>
+                            <option value="f4">Nəsimi filialı</option>
+                            <option value="f5">Yasamal filialı</option>
+                            <option value="f6">Binəqədi filialı</option>
+                            <option value="f7">Xətai filialı</option>
+                            <option value="f8">Səbail filialı</option>
+                            <option value="f9">Suraxanı filialı</option>
+                            <option value="f10">Qaradağ filialı</option>
+                            <option value="f11">Xəzər filialı</option>
+                            <option value="f12">Pirallahı filialı</option>
+                            <option value="f13">Sumqayıt filialı</option>
+                            <option value="f14">Gəncə filialı</option>
+                            <option value="f15">Şirvan filialı</option>
+                            <option value="f16">Mingəçevir filialı</option>
+                            <option value="f17">Lənkəran filialı</option>
+                            <option value="f18">Şəki filialı</option>
+                            <option value="f19">Quba filialı</option>
+                            <option value="f20">Naxçıvan filialı</option>
+                        </select>
                     </div>
                 </div>
                 
-                <!-- FATCA/CRS Questions -->
-                <div class="section">
-                    <h2>FATCA/CRS Anketi</h2>
+                <div class="section" id="fatcaSection">
+                    <h2>Özünü qiymətləndirmə anketi</h2>
                     <div id="fatcaQuestions"></div>
                 </div>
                 
-                <!-- MUT Questions Preview -->
-                <div class="section">
-                    <h2>MUT Sualları</h2>
-                    <div class="mut-questions-preview" onclick="openMutModal()">
-                        <div class="mut-info">
-                            <div class="mut-title">MUT Suallarını Doldurun</div>
-                            <div class="mut-desc">40 sual - 12 avtomatik, 28 müştəri tərəfindən seçilməli</div>
+                <div class="section" id="mutSection">
+                    <h2>Sorğu anketi</h2>
+                    <div onclick="openMutModal()" style="display: flex; flex-direction: column; gap: 0.75rem; padding: 1rem; background: var(--bg-main); border: 2px solid var(--border); border-radius: 10px; cursor: pointer;">
+                        <div style="display: flex; flex-direction: column;">
+                            <div style="font-weight: 600; color: var(--primary); margin-bottom: 0.25rem; font-size: 0.95rem;">Sorğu anketini doldurun</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4;">27 sual - müştəri tərəfindən doldurulmalıdır</div>
                         </div>
-                        <button class="btn btn-secondary">Ətraflı</button>
+                        <button class="btn btn-secondary" style="margin-top: 0.5rem;" onclick="event.stopPropagation(); openMutModal();">Ətraflı</button>
                     </div>
                     <div id="mutCompletionStatus"></div>
                 </div>
                 
                 <div class="btn-group">
-                    <button class="btn btn-primary" onclick="goToPage2()">Növbəti Səhifə →</button>
+                    <button class="btn btn-primary" id="nextPageBtn" onclick="goToPage2()">Növbəti Səhifə →</button>
                 </div>
             </div>
         </div>
         
-        <!-- Page 2 -->
         <div id="page2" class="page">
             <div class="card">
                 <h1>Məlumatların Təsdiqi</h1>
@@ -751,12 +905,12 @@
                 </div>
                 
                 <div class="section">
-                    <h2>FATCA/CRS Cavabları</h2>
+                    <h2>Özünü qiymətləndirmə cavabları</h2>
                     <div id="summaryFatca"></div>
                 </div>
                 
                 <div class="section">
-                    <h2>MUT Sualları</h2>
+                    <h2>Sorğu anketi</h2>
                     <div id="summaryMut"></div>
                 </div>
                 
@@ -768,15 +922,47 @@
         </div>
     </div>
     
-    <!-- MUT Questions Modal -->
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="termsModalTitle">Şərtlər və Qaydalar</h2>
+                <button class="modal-close" onclick="closeTermsModal()">×</button>
+            </div>
+            <div class="modal-body" id="termsModalBody"></div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeTermsModal()">Bağla</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="fatcaWarningModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Diqqət</h2>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <span>⚠️</span>
+                    <div>
+                        <strong>Siz "Bəli" cavabını seçdiniz.</strong>
+                        <p style="margin-top: 0.75rem; font-size: 0.95rem;">Davam etmək üçün filiala yönləndiriləcəksiniz.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeFatcaWarning(true)" style="width: 100%;">Bəli, davam edək</button>
+            </div>
+        </div>
+    </div>
+    
     <div id="mutModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">MUT Sualları</h2>
+                <h2 class="modal-title">Sorğu anketi</h2>
                 <button class="modal-close" onclick="closeMutModal()">×</button>
             </div>
             <div class="modal-body" id="mutModalBody"></div>
-            <div style="padding: 1.5rem 2.5rem; border-top: 2px solid var(--border); display: flex; justify-content: flex-end; gap: 1rem;">
+            <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeMutModal()">Ləğv et</button>
                 <button class="btn btn-primary" onclick="saveMutAnswers()">Yadda saxla</button>
             </div>
@@ -784,180 +970,275 @@
     </div>
 
     <script>
-        // FATCA/CRS Questions
         const fatcaQuestions = [
-            { id: 'q1', text: 'ABŞ-da ünvanınız varmı?' },
-            { id: 'q2', text: 'ABŞ telefon nömrəniz varmı?' },
-            { id: 'q3', text: 'ABŞ bank hesabınız varmı?' },
-            { id: 'q4', text: 'ABŞ vergi ödəyicisinizmi?' },
-            { id: 'q5', text: 'ABŞ-da doğulmusunuzmu?' },
-            { id: 'q6', text: 'ABŞ vətəndaşısınızmı?' },
-            { id: 'q7', text: 'Başqa bir ölkədə vergi rezidentisinizmi?' },
-            { id: 'q8', text: 'Başqa ölkədə daimi yaşayış icazəniz varmı?' },
-            { id: 'q9', text: 'Başqa ölkədə bank hesabınız varmı?' },
-            { id: 'q10', text: 'Siyasi cəhətdən açıq şəxssinizmi?' },
-            { id: 'q11', text: 'Ailə üzvləriniz siyasi vəzifə daşıyırmı?' },
-            { id: 'q12', text: 'Beynəlxalq sanksiyaya məruz qalmısınızmı?' }
+            { id: 'q1', text: 'Xaricdə olan hər hansı bank hesabına dövri ödənişlər edilməsi ilə bağlı göstəriş vermisinizmi və ya verməyi planlaşdırırsınızmı?' },
+            { id: 'q2', text: 'Xaricdə ünvanı olan şəxsə etibarnamə və ya imza səlahiyyəti vermisinizmi və ya verməyi planlaşdırırsınızmı?' },
+            { id: 'q3', text: 'Maliyyə institutuna öz yeganə ünvanınız kimi "vasitəçi ünvanı" və ya "əmanət ünvanı" təqdim etmək fikrindəsinizmi?' },
+            { id: 'q4', text: 'Xarici telefon nömrəsinə sahibsinizmi?' },
+            { id: 'q5', text: '"Green Card"a sahibsinizmi (etibarlılıq müddətindən asılı olmayaraq)?' },
+            { id: 'q6', text: 'ABŞ-da ünvanınız varmı?' },
+            { id: 'q7', text: 'Azərbaycan rezidentliyindən başqa rezidentliyiniz varmı?' },
+            { id: 'q8', text: 'Xaricdə müəyyən müddət keçirmə testinin şərtlərini təmin edirsiniz mi?' }
         ];
         
-        // MUT Questions (40 questions)
         const mutQuestions = [
-            { id: 'm1', text: 'Maliyyə vəziyyətiniz nədir?', disabled: true, autoValue: 'Stabil' },
-            { id: 'm2', text: 'Aylıq gəliriniz nə qədərdir?', disabled: true, autoValue: '2000-5000 AZN' },
-            { id: 'm3', text: 'İş statuunuz nədir?', disabled: true, autoValue: 'Tam ştat işçi' },
-            { id: 'm4', text: 'İş təcrübəniz neçə ildir?', disabled: true, autoValue: '5-10 il' },
-            { id: 'm5', text: 'Təhsil səviyyəniz nədir?', disabled: true, autoValue: 'Ali təhsil' },
-            { id: 'm6', text: 'Ailə vəziyyətiniz nədir?', disabled: true, autoValue: 'Evli' },
-            { id: 'm7', text: 'Neçə nəfərlik ailəsiniz var?', disabled: true, autoValue: '3-4 nəfər' },
-            { id: 'm8', text: 'Mənziliniz varmı?', disabled: true, autoValue: 'Bəli, şəxsi' },
-            { id: 'm9', text: 'Avtomobiliniz varmı?', disabled: true, autoValue: 'Bəli' },
-            { id: 'm10', text: 'Digər kreditləriniz varmı?', disabled: true, autoValue: 'Xeyr' },
-            { id: 'm11', text: 'Kredit tarixiniz necədir?', disabled: true, autoValue: 'Yaxşı' },
-            { id: 'm12', text: 'Bank hesabınız neçə ildir aktivdir?', disabled: true, autoValue: '3+ il' },
-            { id: 'm13', text: 'Kart istifadə məqsədiniz nədir?', disabled: false },
-            { id: 'm14', text: 'Aylıq kart xərcləriniz nə qədər olacaq?', disabled: false },
-            { id: 'm15', text: 'Onlayn alış-veriş edirsinizmi?', disabled: false },
-            { id: 'm16', text: 'Xaricdə kart istifadə edəcəksinizmi?', disabled: false },
-            { id: 'm17', text: 'Əsas kart xərciniz hansı sahədədir?', disabled: false },
-            { id: 'm18', text: 'ATM istifadə tezliyiniz necədir?', disabled: false },
-            { id: 'm19', text: 'Mobil bank istifadə edirsinizmi?', disabled: false },
-            { id: 'm20', text: 'SMS bildiriş xidmətini istəyirsinizmi?', disabled: false },
-            { id: 'm21', text: 'Cashback proqramına marağınız varmı?', disabled: false },
-            { id: 'm22', text: 'Bonus proqramlarını izləyirsinizmi?', disabled: false },
-            { id: 'm23', text: 'Kart sığortası istəyirsinizmi?', disabled: false },
-            { id: 'm24', text: 'Premium xidmətlərə ehtiyacınız varmı?', disabled: false },
-            { id: 'm25', text: 'Kredit limitinə ehtiyacınız varmı?', disabled: false },
-            { id: 'm26', text: 'Taksit imkanından istifadə edəcəksinizmi?', disabled: false },
-            { id: 'm27', text: 'Kommunal ödənişləri kartla edirsinizmi?', disabled: false },
-            { id: 'm28', text: 'Abunə xidmətləri üçün kart istifadə edirsinizmi?', disabled: false },
-            { id: 'm29', text: 'Yığım hesabınız varmı?', disabled: false },
-            { id: 'm30', text: 'Depozit hesabınız varmı?', disabled: false },
-            { id: 'm31', text: 'İnvestisiya planlarınız varmı?', disabled: false },
-            { id: 'm32', text: 'Sığorta məhsullarına marağınız varmı?', disabled: false },
-            { id: 'm33', text: 'Kart PIN kodu dəyişdirə bilirsinizmi?', disabled: false },
-            { id: 'm34', text: 'Kart limiti artırılmasına ehtiyacınız olacaqmı?', disabled: false },
-            { id: 'm35', text: 'Virtual karta ehtiyacınız varmı?', disabled: false },
-            { id: 'm36', text: 'Əlavə kart sifariş edəcəksinizmi?', disabled: false },
-            { id: 'm37', text: 'Kart dizaynını seçmək istəyirsinizmi?', disabled: false },
-            { id: 'm38', text: '3D Secure xidmətini aktivləşdirməli?', disabled: false },
-            { id: 'm39', text: 'Kart bloklama xidmətindən məlumatlısınızmı?', disabled: false },
-            { id: 'm40', text: 'Müştəri xidmətləri ilə əlaqə üsulunuz nədir?', disabled: false }
+            { id: 'm1', text: 'Ad, soyad və ya ata adı dəyişdirildikdə əvvəlki ad, soyad və atasının adı:', type: 'input', mandatory: false },
+            { id: 'm2', text: 'İş yeri', type: 'input', mandatory: true },
+            { id: 'm3', text: 'Vəzifəsi', type: 'input', mandatory: true },
+            { id: 'm4', text: 'Rezidentlik', type: 'input', mandatory: true },
+            { id: 'm5', text: 'Azərbaycan rezidentliyindən başqa rezidentlik varmi?', type: 'toggle', mandatory: false },
+            { id: 'm6', text: 'Vətəndaşı olduğu ölkə(lər):', type: 'input', mandatory: true },
+            { id: 'm7', text: 'E-mail:', type: 'email', mandatory: true },
+            { id: 'm8', text: 'Faktiki və poçt ünvanları qeydiyyat ünvanı ilə eynidir?', type: 'toggle', mandatory: false },
+            { id: 'm9', text: 'İstifadə edəcəyiniz məhsul?', type: 'select', options: ['Seçin', 'Debet kart', 'Kredit kart', 'Virtual kart'], mandatory: true },
+            { id: 'm10', text: 'Əməliyyat keçirməyi planlaşdırdığınız ölkələr', type: 'textarea', mandatory: false },
+            { id: 'm11', text: 'Məhsuldan istifadə ediləcəyi sahələr, platformalar:', type: 'textarea', mandatory: false },
+            { id: 'm12', text: 'Məhsulun idarə edilməsi üsulu', type: 'select', options: ['Seçin', 'Mobil tətbiq', 'İnternet bank', 'Filial', 'ATM'], mandatory: true },
+            { id: 'm13', text: 'Vəsaitlərin mədaxil edilməsinin üsulları:', type: 'select', options: ['Seçin', 'Nağd', 'Köçürmə', 'Maaş', 'Əmanət'], mandatory: true },
+            { id: 'm14', text: 'Mədaxil və məxaric əməliyyatların ehtimal edilən həcmi', type: 'select', options: ['Seçin', '0-1000 AZN', '1000-5000 AZN', '5000-10000 AZN', '10000+ AZN'], mandatory: true },
+            { id: 'm15', text: 'Əməliyyatın istiqamətləri', type: 'select', options: ['Seçin', 'Daxili', 'Xarici', 'Hər ikisi'], mandatory: true },
+            { id: 'm16', text: 'Vəsaitlərin mədaxil edilməsinin dövürlüyü:', type: 'select', options: ['Seçin', 'Gündəlik', 'Həftəlik', 'Aylıq', 'Qeyri-müntəzəm'], mandatory: true },
+            { id: 'm17', text: 'Vəsaitlərin mədaxil edilməsinin mənbələri:', type: 'select', options: ['Seçin', 'Əmək haqqı', 'Biznes gəliri', 'İcarə', 'Digər'], mandatory: true },
+            { id: 'm18', text: 'Son 12 ayda xaricə və xaricdən köçürmələr olubmu?', type: 'toggle', mandatory: false },
+            { id: 'm19', text: 'Gəlir mənbəyi', type: 'select', options: ['Seçin', 'Əmək haqqı', 'Sahibkarlıq', 'Əmlak gəliri', 'Dividend', 'Pensiya'], mandatory: true },
+            { id: 'm20', text: 'Orta illik gəlirin məbləği (AZN)', type: 'select', options: ['Seçin', '0-10000', '10000-30000', '30000-60000', '60000-100000', '100000+'], mandatory: true },
+            { id: 'm21', text: 'Digər gəlir mənbəyi varsa əlavə edin', type: 'textarea', mandatory: false },
+            { id: 'm22', text: 'Siyasi nüfuzlu şəxsiniz?', type: 'toggle', mandatory: false },
+            { id: 'm23', text: 'Siz siyasi xadimin qohumu və ya siyasi xadimlə əlaqəniz varmı?', type: 'toggle', mandatory: false },
+            { id: 'm24', text: 'Sponsor (sizi maliyyələşdirən şəxs və ya şəxslər)', type: 'input', mandatory: false },
+            { id: 'm25', text: 'Əməliyyat (əqd) başqa şəxsin xeyrinə və ya tapşırığı ilə həyata keçirilirmi?', type: 'toggle', mandatory: false },
+            { id: 'm26', text: 'Etibarnamə', type: 'input', mandatory: false },
+            { id: 'm27', text: 'Mən təstiq edirəm ki, mən bu hesabın (hesabların) sonuncu benefisiarıyam.', type: 'toggle', mandatory: true }
         ];
         
-        const mutOptions = [
-            'Seçilməyib',
-            'Şəxsi xərclər',
-            'Biznes xərcləri',
-            '500 AZN-dən az',
-            '500-1000 AZN',
-            '1000-2000 AZN',
-            '2000+ AZN',
-            'Bəli, tez-tez',
-            'Bəli, nadir hallarda',
-            'Xeyr',
-            'Marketlər',
-            'Restoran və kafe',
-            'Onlayn alış-veriş',
-            'Kommunal xidmətlər',
-            'Təhsil və kitab',
-            'Səyahət',
-            'Sağlamlıq',
-            'Əyləncə',
-            'Hər gün',
-            'Həftədə bir dəfə',
-            'Ayda bir dəfə',
-            'Nadir hallarda',
-            'Zəng',
-            'Mesaj',
-            'Mobil tətbiq',
-            'Filial'
-        ];
-        
-        // Initialize
         let formData = loadFromLocalStorage() || {
+            fullName: '',
+            companyName: '',
+            voen: '',
+            preConsent: false,
             asanFinansAccess: null,
+            dataConsent: false,
             delivery: null,
             filial: null,
             fatca: {},
             mut: {}
         };
         
-        // Initialize FATCA questions
+        let currentFatcaQuestion = null;
+        
+        function fetchUserData() {
+            setTimeout(function() {
+                const userData = {
+                    fullName: 'Fuad Əsgərov',
+                    companyName: 'Bank of Baku OJSC',
+                    voen: '1234567890'
+                };
+                
+                formData.fullName = userData.fullName;
+                formData.companyName = userData.companyName;
+                formData.voen = userData.voen;
+                
+                document.getElementById('fullNameDisplay').textContent = userData.fullName;
+                document.getElementById('companyName').textContent = userData.companyName;
+                document.getElementById('voen').textContent = userData.voen;
+                
+                saveToLocalStorage();
+            }, 500);
+        }
+        
+        function handlePreConsentChange() {
+            const checkbox = document.getElementById('preConsentCheck');
+            formData.preConsent = checkbox.checked;
+            
+            const checkBtn = document.getElementById('checkBtn');
+            checkBtn.disabled = !checkbox.checked;
+            
+            if (!checkbox.checked) {
+                formData.asanFinansAccess = null;
+                document.getElementById('asanFinansStatus').innerHTML = '';
+                document.getElementById('consentBox').style.display = 'none';
+            }
+            
+            saveToLocalStorage();
+            updateFormState();
+        }
+        
         function initFatcaQuestions() {
             const container = document.getElementById('fatcaQuestions');
-            container.innerHTML = fatcaQuestions.map(q => `
-                <div class="question-item">
-                    <div class="question-text">${q.text}</div>
-                    <div class="radio-group">
-                        <label class="radio-item">
-                            <input type="radio" name="${q.id}" value="yes" onchange="saveFatcaAnswer('${q.id}', 'yes')" ${formData.fatca[q.id] === 'yes' ? 'checked' : ''}>
-                            <span>Bəli</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="${q.id}" value="no" onchange="saveFatcaAnswer('${q.id}', 'no')" ${formData.fatca[q.id] === 'no' ? 'checked' : ''}>
-                            <span>Xeyr</span>
-                        </label>
-                    </div>
-                </div>
-            `).join('');
+            container.innerHTML = fatcaQuestions.map(function(q) {
+                const isChecked = formData.fatca[q.id] === 'yes';
+                
+                if (formData.fatca[q.id] === undefined) {
+                    formData.fatca[q.id] = 'no';
+                }
+                
+                return '<div class="toggle-item" id="fatca-' + q.id + '">' +
+                    '<div class="toggle-text">' + q.text + '</div>' +
+                    '<div class="toggle-labels">' +
+                    '<span class="toggle-label ' + (!isChecked ? 'active' : '') + '">Xeyr</span>' +
+                    '<label class="toggle-switch">' +
+                    '<input type="checkbox" ' + (isChecked ? 'checked' : '') + ' onchange="handleFatcaToggle(\'' + q.id + '\', this.checked)">' +
+                    '<span class="toggle-slider"></span>' +
+                    '</label>' +
+                    '<span class="toggle-label ' + (isChecked ? 'active' : '') + '">Bəli</span>' +
+                    '</div>' +
+                    '</div>';
+            }).join('');
+            
+            updateFormState();
         }
         
-        // Initialize MUT questions in modal
+        function handleFatcaToggle(questionId, isChecked) {
+            if (isChecked) {
+                currentFatcaQuestion = questionId;
+                document.getElementById('fatcaWarningModal').classList.add('show');
+            } else {
+                formData.fatca[questionId] = 'no';
+                updateToggleLabels(questionId, false);
+                saveToLocalStorage();
+            }
+        }
+        
+        function updateToggleLabels(questionId, isChecked) {
+            const container = document.getElementById('fatca-' + questionId);
+            if (container) {
+                const labels = container.querySelectorAll('.toggle-label');
+                if (labels.length === 2) {
+                    if (isChecked) {
+                        labels[0].classList.remove('active');
+                        labels[1].classList.add('active');
+                    } else {
+                        labels[0].classList.add('active');
+                        labels[1].classList.remove('active');
+                    }
+                }
+            }
+        }
+        
+        function closeFatcaWarning(confirmed) {
+            const modal = document.getElementById('fatcaWarningModal');
+            modal.classList.remove('show');
+            
+            if (currentFatcaQuestion) {
+                if (confirmed) {
+                    formData.fatca[currentFatcaQuestion] = 'yes';
+                    updateToggleLabels(currentFatcaQuestion, true);
+                    console.log('FATCA YES selected - User will be redirected to branch');
+                } else {
+                    formData.fatca[currentFatcaQuestion] = 'no';
+                    const toggle = document.querySelector('#fatca-' + currentFatcaQuestion + ' input[type="checkbox"]');
+                    if (toggle) toggle.checked = false;
+                    updateToggleLabels(currentFatcaQuestion, false);
+                }
+                saveToLocalStorage();
+                currentFatcaQuestion = null;
+            }
+        }
+        
         function initMutQuestions() {
             const container = document.getElementById('mutModalBody');
-            container.innerHTML = mutQuestions.map((q, index) => `
-                <div class="mut-question ${q.disabled ? 'disabled' : ''}">
-                    <div class="mut-question-number">Sual ${index + 1}/40</div>
-                    <div class="mut-question-text">
-                        ${q.text}
-                        ${q.disabled ? '<span class="auto-filled-badge">Avtomatik</span>' : ''}
-                    </div>
-                    ${q.disabled ? 
-                        `<input type="text" class="mut-select" value="${q.autoValue}" disabled>` :
-                        `<select class="mut-select" id="${q.id}" onchange="saveMutAnswer('${q.id}', this.value)">
-                            ${mutOptions.map(opt => 
-                                `<option value="${opt}" ${formData.mut[q.id] === opt ? 'selected' : ''}>${opt}</option>`
-                            ).join('')}
-                        </select>`
-                    }
-                </div>
-            `).join('');
-            
-            // Restore saved answers for disabled questions
-            mutQuestions.filter(q => q.disabled).forEach(q => {
-                formData.mut[q.id] = q.autoValue;
-            });
+            container.innerHTML = mutQuestions.map(function(q, index) {
+                const isMandatory = q.mandatory;
+                let inputHTML = '';
+                
+                switch (q.type) {
+                    case 'input':
+                        inputHTML = '<input type="text" class="mut-select" id="' + q.id + '" value="' + (formData.mut[q.id] || '') + '" onchange="saveMutAnswer(\'' + q.id + '\', this.value)">';
+                        break;
+                    case 'email':
+                        inputHTML = '<input type="email" class="mut-select" id="' + q.id + '" value="' + (formData.mut[q.id] || '') + '" onchange="saveMutAnswer(\'' + q.id + '\', this.value)">';
+                        break;
+                    case 'textarea':
+                        inputHTML = '<textarea class="mut-select" id="' + q.id + '" onchange="saveMutAnswer(\'' + q.id + '\', this.value)">' + (formData.mut[q.id] || '') + '</textarea>';
+                        break;
+                    case 'toggle':
+                        const isChecked = formData.mut[q.id] === 'yes';
+                        if (formData.mut[q.id] === undefined) {
+                            formData.mut[q.id] = 'no';
+                        }
+                        inputHTML = '<div class="toggle-labels" style="justify-content: flex-start;">' +
+                            '<span class="toggle-label ' + (!isChecked ? 'active' : '') + '">Xeyr</span>' +
+                            '<label class="toggle-switch">' +
+                            '<input type="checkbox" ' + (isChecked ? 'checked' : '') + ' onchange="saveMutAnswer(\'' + q.id + '\', this.checked ? \'yes\' : \'no\')">' +
+                            '<span class="toggle-slider"></span>' +
+                            '</label>' +
+                            '<span class="toggle-label ' + (isChecked ? 'active' : '') + '">Bəli</span>' +
+                            '</div>';
+                        break;
+                    case 'select':
+                        inputHTML = '<select class="mut-select" id="' + q.id + '" onchange="saveMutAnswer(\'' + q.id + '\', this.value)">';
+                        q.options.forEach(function(opt) {
+                            inputHTML += '<option value="' + opt + '" ' + (formData.mut[q.id] === opt ? 'selected' : '') + '>' + opt + '</option>';
+                        });
+                        inputHTML += '</select>';
+                        break;
+                    default:
+                        inputHTML = '<input type="text" class="mut-select" id="' + q.id + '" value="' + (formData.mut[q.id] || '') + '" onchange="saveMutAnswer(\'' + q.id + '\', this.value)">';
+                }
+                
+                return '<div class="mut-question ' + (isMandatory ? 'mandatory' : '') + '">' +
+                    '<div class="mut-question-number">Sual ' + (index + 1) + '/27' + (isMandatory ? ' (Məcburi)' : '') + '</div>' +
+                    '<div class="mut-question-text">' + q.text + '</div>' +
+                    inputHTML +
+                    '</div>';
+            }).join('');
         }
         
-        // Check Asan Finans access
-        async function checkAsanFinans() {
+        function checkAsanFinans() {
             const statusDiv = document.getElementById('asanFinansStatus');
             statusDiv.innerHTML = '<div class="alert alert-info" style="margin-top: 1rem;"><span>🔄</span> Yoxlanılır...</div>';
             
-            // Simulate backend check
-            setTimeout(() => {
-                // Simulate random result
+            setTimeout(function() {
                 const hasAccess = Math.random() > 0.3;
                 formData.asanFinansAccess = hasAccess;
                 
                 if (hasAccess) {
                     statusDiv.innerHTML = '<div class="alert alert-success" style="margin-top: 1rem;"><span>✓</span> Giriş hüququ mövcuddur</div>';
+                    document.getElementById('consentBox').style.display = 'block';
                 } else {
                     statusDiv.innerHTML = '<div class="alert alert-error" style="margin-top: 1rem;"><span>✗</span> Giriş hüququ tapılmadı. Zəhmət olmasa sistem administratoru ilə əlaqə saxlayın.</div>';
+                    document.getElementById('consentBox').style.display = 'none';
                 }
                 
                 saveToLocalStorage();
+                updateFormState();
             }, 1500);
         }
         
-        // Handle delivery change
+        function handleConsentChange() {
+            const checkbox = document.getElementById('dataConsentCheck');
+            formData.dataConsent = checkbox.checked;
+            saveToLocalStorage();
+            updateFormState();
+        }
+        
+        function showTermsModal(type) {
+            const modal = document.getElementById('termsModal');
+            const title = document.getElementById('termsModalTitle');
+            const body = document.getElementById('termsModalBody');
+            
+            title.textContent = type === 'akb' ? 'Azərbaycan Kredit Bürosu' : 'ASAN Finans';
+            body.innerHTML = '<h3 style="margin-bottom: 1.5rem; font-size: 1.25rem; color: var(--primary);">Şərtlər və Qaydalar</h3>' +
+                '<p style="margin-bottom: 1rem; line-height: 1.8; font-size: 0.95rem;">' +
+                'Qeyd edilən məlumatların doğruluğunu təsdiq edirəm. Həmçinin, kredit öhdəliklərimin barədə məlumatları ' +
+                '"Azərbaycan Kredit Bürosu" reyestrindən sorğu etmək, "ASAN Finans", "Elektron Hökümət" portalından ' +
+                'qeydiyyatdan keçirmək və digər məlumat bazalarından məlumatların əldə edilməsinə razılığımı bildirirəm.' +
+                '</p>';
+            
+            modal.classList.add('show');
+        }
+        
+        function closeTermsModal() {
+            document.getElementById('termsModal').classList.remove('show');
+        }
+        
         function handleDeliveryChange() {
-            const selfDelivery = document.querySelector('input[name="delivery"][value="self"]').checked;
+            const selfDelivery = document.querySelector('input[name="delivery"][value="self"]');
             const filialSelect = document.getElementById('filialSelect');
             const option1 = document.getElementById('deliveryOption1');
             const option2 = document.getElementById('deliveryOption2');
             
-            if (selfDelivery) {
+            if (selfDelivery && selfDelivery.checked) {
                 filialSelect.classList.add('show');
                 option2.classList.add('selected');
                 option1.classList.remove('selected');
@@ -974,68 +1255,91 @@
             saveToLocalStorage();
         }
         
-        // Save filial selection
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('filialDropdown').addEventListener('change', (e) => {
-                formData.filial = e.target.value;
-                saveToLocalStorage();
-            });
-        });
-        
-        // Save FATCA answer
-        function saveFatcaAnswer(questionId, value) {
-            formData.fatca[questionId] = value;
-            saveToLocalStorage();
-        }
-        
-        // Save MUT answer
         function saveMutAnswer(questionId, value) {
             formData.mut[questionId] = value;
             saveToLocalStorage();
         }
         
-        // Open MUT modal
         function openMutModal() {
             initMutQuestions();
             document.getElementById('mutModal').classList.add('show');
         }
         
-        // Close MUT modal
         function closeMutModal() {
             document.getElementById('mutModal').classList.remove('show');
         }
         
-        // Save MUT answers
         function saveMutAnswers() {
-            const answeredCount = Object.keys(formData.mut).filter(key => {
-                const question = mutQuestions.find(q => q.id === key);
-                return !question.disabled && formData.mut[key] && formData.mut[key] !== 'Seçilməyib';
-            }).length;
+            const mandatoryQuestions = mutQuestions.filter(function(q) { return q.mandatory; });
+            const answeredMandatory = mandatoryQuestions.filter(function(q) {
+                const answer = formData.mut[q.id];
+                return answer && answer !== '' && answer !== 'Seçin';
+            });
             
             const statusDiv = document.getElementById('mutCompletionStatus');
-            if (answeredCount === 28) {
-                statusDiv.innerHTML = '<div class="alert alert-success" style="margin-top: 1rem;"><span>✓</span> Bütün suallar cavablandırılıb</div>';
+            if (answeredMandatory.length === mandatoryQuestions.length) {
+                statusDiv.innerHTML = '<div class="alert alert-success" style="margin-top: 1rem;"><span>✓</span> Bütün məcburi suallar cavablandırılıb</div>';
             } else {
-                statusDiv.innerHTML = `<div class="alert alert-info" style="margin-top: 1rem;"><span>ℹ</span> ${answeredCount}/28 sual cavablandırılıb</div>`;
+                statusDiv.innerHTML = '<div class="alert alert-warning" style="margin-top: 1rem;"><span>⚠</span> ' + answeredMandatory.length + '/' + mandatoryQuestions.length + ' məcburi sual cavablandırılıb</div>';
             }
             
             closeMutModal();
             saveToLocalStorage();
+            updateFormState();
         }
         
-        // Local storage functions
+        function updateFormState() {
+            const hasPreConsent = formData.preConsent === true;
+            const hasAsanAccess = formData.asanFinansAccess === true;
+            const hasConsent = formData.dataConsent === true;
+            
+            const deliverySection = document.getElementById('deliverySection');
+            const fatcaSection = document.getElementById('fatcaSection');
+            const mutSection = document.getElementById('mutSection');
+            const nextBtn = document.getElementById('nextPageBtn');
+            
+            if (!hasPreConsent) {
+                deliverySection.classList.add('disabled');
+                fatcaSection.classList.add('disabled');
+                mutSection.classList.add('disabled');
+                nextBtn.disabled = true;
+            } else if (hasAsanAccess && hasConsent) {
+                deliverySection.classList.remove('disabled');
+                fatcaSection.classList.remove('disabled');
+                mutSection.classList.remove('disabled');
+                nextBtn.disabled = false;
+            } else {
+                deliverySection.classList.add('disabled');
+                fatcaSection.classList.add('disabled');
+                mutSection.classList.add('disabled');
+                nextBtn.disabled = true;
+            }
+        }
+        
         function saveToLocalStorage() {
-            localStorage.setItem('bankCardFormData', JSON.stringify(formData));
+            try {
+                localStorage.setItem('bankCardFormData', JSON.stringify(formData));
+            } catch(e) {
+                console.error('localStorage error:', e);
+            }
         }
         
         function loadFromLocalStorage() {
-            const data = localStorage.getItem('bankCardFormData');
-            return data ? JSON.parse(data) : null;
+            try {
+                const data = localStorage.getItem('bankCardFormData');
+                return data ? JSON.parse(data) : null;
+            } catch(e) {
+                console.error('localStorage error:', e);
+                return null;
+            }
         }
         
-        // Navigation
         function goToPage2() {
-            // Validate required fields
+            if (!formData.fullName || formData.fullName.trim() === '') {
+                alert('Ad soyad məlumatı tapılmadı');
+                return;
+            }
+            
             if (!formData.delivery) {
                 alert('Zəhmət olmasa təhvil alma formasını seçin');
                 return;
@@ -1048,21 +1352,21 @@
             
             const fatcaAnswered = Object.keys(formData.fatca).length === fatcaQuestions.length;
             if (!fatcaAnswered) {
-                alert('Zəhmət olmasa bütün FATCA/CRS suallarını cavablandırın');
+                alert('Zəhmət olmasa bütün özünü qiymətləndirmə suallarını cavablandırın');
                 return;
             }
             
-            const mutAnsweredCount = Object.keys(formData.mut).filter(key => {
-                const question = mutQuestions.find(q => q.id === key);
-                return !question || (!question.disabled && formData.mut[key] && formData.mut[key] !== 'Seçilməyib');
-            }).length;
+            const mandatoryQuestions = mutQuestions.filter(function(q) { return q.mandatory; });
+            const answeredMandatory = mandatoryQuestions.filter(function(q) {
+                const answer = formData.mut[q.id];
+                return answer && answer !== '' && answer !== 'Seçin';
+            });
             
-            if (mutAnsweredCount < 28) {
-                alert('Zəhmət olmasa bütün MUT suallarını cavablandırın');
+            if (answeredMandatory.length < mandatoryQuestions.length) {
+                alert('Zəhmət olmasa bütün məcburi sorğu anketi suallarını cavablandırın');
                 return;
             }
             
-            // Show summary
             showSummary();
             
             document.getElementById('page1').classList.remove('active');
@@ -1078,57 +1382,54 @@
             window.scrollTo(0, 0);
         }
         
-        // Show summary
         function showSummary() {
-            // Delivery summary
             const deliverySummary = document.getElementById('summaryDelivery');
+            let summaryHTML = '<div class="question-item"><strong>Ad Soyad:</strong> ' + formData.fullName + '</div>';
+            
             let deliveryText = formData.delivery === 'self' ? 'Kart sahibinin özü tərəfindən götürülməsi' : 'Kartın işəgötürənə və ya onun nümayəndəsinə təhvil verilməsi';
             if (formData.filial) {
-                const selectedFilial = document.querySelector(`#filialDropdown option[value="${formData.filial}"]`).text;
-                deliveryText += ` - ${selectedFilial}`;
+                const selectedFilial = document.querySelector('#filialDropdown option[value="' + formData.filial + '"]');
+                if (selectedFilial) {
+                    deliveryText += ' - ' + selectedFilial.text;
+                }
             }
-            deliverySummary.innerHTML = `<div class="question-item"><strong>${deliveryText}</strong></div>`;
+            summaryHTML += '<div class="question-item"><strong>' + deliveryText + '</strong></div>';
+            deliverySummary.innerHTML = summaryHTML;
             
-            // FATCA summary
             const fatcaSummary = document.getElementById('summaryFatca');
-            fatcaSummary.innerHTML = fatcaQuestions.map(q => `
-                <div class="question-item">
-                    <div class="question-text">${q.text}</div>
-                    <div><strong>${formData.fatca[q.id] === 'yes' ? 'Bəli' : 'Xeyr'}</strong></div>
-                </div>
-            `).join('');
+            fatcaSummary.innerHTML = fatcaQuestions.map(function(q) {
+                return '<div class="question-item">' +
+                    '<div class="question-text">' + q.text + '</div>' +
+                    '<div><strong>' + (formData.fatca[q.id] === 'yes' ? 'Bəli' : 'Xeyr') + '</strong></div>' +
+                    '</div>';
+            }).join('');
             
-            // MUT summary
             const mutSummary = document.getElementById('summaryMut');
-            const answeredMut = mutQuestions.filter(q => formData.mut[q.id]).slice(0, 5);
-            mutSummary.innerHTML = `
-                <div class="alert alert-success">
-                    <span>✓</span>
-                    <span>40 sualın hamısı cavablandırılıb (12 avtomatik, 28 manual)</span>
-                </div>
-                <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
-                    İlk 5 cavab nümunəsi:
-                </div>
-                ${answeredMut.map(q => `
-                    <div class="question-item">
-                        <div class="question-text">${q.text}</div>
-                        <div><strong>${formData.mut[q.id]}</strong></div>
-                    </div>
-                `).join('')}
-            `;
+            const answeredMut = mutQuestions.filter(function(q) {
+                return formData.mut[q.id] && formData.mut[q.id] !== '' && formData.mut[q.id] !== 'Seçin';
+            }).slice(0, 5);
+            
+            mutSummary.innerHTML = '<div class="alert alert-success"><span>✓</span><span>Sorğu anketi tamamlandı</span></div>' +
+                '<div style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">İlk 5 cavab nümunəsi:</div>' +
+                answeredMut.map(function(q) {
+                    return '<div class="question-item">' +
+                        '<div class="question-text">' + q.text + '</div>' +
+                        '<div><strong>' + formData.mut[q.id] + '</strong></div>' +
+                        '</div>';
+                }).join('');
         }
         
-        // Submit form
-        async function submitForm() {
+        function submitForm() {
             if (!confirm('Formanı göndərmək istədiyinizə əminsiniz?')) {
                 return;
             }
             
-            // Prepare data for backend
             const submitData = {
-                companyName: 'Bank of Baku OJSC',
-                voen: '1234567890',
+                fullName: formData.fullName,
+                companyName: formData.companyName,
+                voen: formData.voen,
                 asanFinansAccess: formData.asanFinansAccess,
+                dataConsent: formData.dataConsent,
                 delivery: formData.delivery,
                 filial: formData.filial,
                 fatcaAnswers: formData.fatca,
@@ -1138,26 +1439,35 @@
             
             console.log('Submitting data:', submitData);
             
-            // Simulate API call
             alert('Form uğurla göndərildi! ✓\n\nMəlumatlar backend sistemə ötürüldü.');
             
-            // Clear local storage
             localStorage.removeItem('bankCardFormData');
             
-            // Reload page
-            setTimeout(() => {
+            setTimeout(function() {
                 location.reload();
             }, 1000);
         }
         
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchUserData();
             initFatcaQuestions();
             
-            // Restore form state
+            document.getElementById('filialDropdown').addEventListener('change', function(e) {
+                formData.filial = e.target.value;
+                saveToLocalStorage();
+            });
+            
+            if (formData.preConsent) {
+                document.getElementById('preConsentCheck').checked = true;
+                document.getElementById('checkBtn').disabled = false;
+            }
+            
             if (formData.delivery) {
-                document.querySelector(`input[name="delivery"][value="${formData.delivery}"]`).checked = true;
-                handleDeliveryChange();
+                const radio = document.querySelector('input[name="delivery"][value="' + formData.delivery + '"]');
+                if (radio) {
+                    radio.checked = true;
+                    handleDeliveryChange();
+                }
             }
             
             if (formData.filial) {
@@ -1168,12 +1478,17 @@
                 const statusDiv = document.getElementById('asanFinansStatus');
                 if (formData.asanFinansAccess) {
                     statusDiv.innerHTML = '<div class="alert alert-success" style="margin-top: 1rem;"><span>✓</span> Giriş hüququ mövcuddur</div>';
+                    document.getElementById('consentBox').style.display = 'block';
+                    
+                    if (formData.dataConsent) {
+                        document.getElementById('dataConsentCheck').checked = true;
+                    }
                 } else {
                     statusDiv.innerHTML = '<div class="alert alert-error" style="margin-top: 1rem;"><span>✗</span> Giriş hüququ tapılmadı</div>';
                 }
             }
             
-            // Update progress
+            updateFormState();
             document.getElementById('progressFill').style.width = '50%';
         });
     </script>
