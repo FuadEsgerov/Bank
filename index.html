@@ -197,16 +197,6 @@
             }
         }
         
-        .section-title::before {
-            content: '';
-            width: 4px;
-            height: 20px;
-            background: var(--primary);
-            margin-right: 0.75rem;
-            border-radius: 2px;
-            flex-shrink: 0;
-        }
-        
         .btn {
             padding: 0.875rem 1.25rem;
             border: none;
@@ -364,6 +354,11 @@
             box-shadow: 0 0 0 3px var(--primary-pale);
         }
         
+        select.error, .form-input.error, .mut-select.error {
+            border-color: var(--error);
+            box-shadow: 0 0 0 3px rgba(201, 58, 58, 0.1);
+        }
+        
         textarea.mut-select {
             min-height: 100px;
             resize: vertical;
@@ -409,9 +404,9 @@
         }
         
         .alert-warning {
-            background: var(--primary-pale);
-            color: var(--primary-dark);
-            border-left: 4px solid var(--primary-light);
+            background: rgba(255, 152, 0, 0.08);
+            color: #d97706;
+            border-left: 4px solid #f59e0b;
         }
         
         .progress-bar {
@@ -512,11 +507,6 @@
             gap: 1rem;
         }
         
-        .toggle-item.error {
-            border-left-color: var(--error);
-            background: rgba(201, 58, 58, 0.05);
-        }
-        
         .toggle-text {
             font-size: 0.9rem;
             color: var(--text-primary);
@@ -566,12 +556,6 @@
             background-color: var(--primary);
         }
         
-        .toggle-switch input:disabled + .toggle-slider {
-            background-color: var(--error);
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-        
         .toggle-switch input:checked + .toggle-slider:before {
             transform: translateX(26px);
             -webkit-transform: translateX(26px);
@@ -617,51 +601,44 @@
         
         .modal.show {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: center;
-        }
-        
-        @media (min-width: 768px) {
-            .modal.show {
-                align-items: center;
-            }
         }
         
         .modal-content {
             background: white;
             border-radius: 0;
-            max-width: 900px;
+            max-width: 600px;
             width: 100%;
             max-height: 100vh;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
         }
         
         @media (min-width: 768px) {
             .modal-content {
                 border-radius: 16px;
-                max-height: 90vh;
+                max-height: 85vh;
             }
         }
         
         .modal-header {
-            padding: 1.25rem;
+            padding: 1rem 1.25rem;
             border-bottom: 2px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: var(--primary);
             color: white;
-            position: -webkit-sticky;
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            flex-shrink: 0;
         }
         
         .modal-title {
             font-family: 'Crimson Pro', serif;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: white;
         }
@@ -671,8 +648,8 @@
             border: none;
             color: white;
             font-size: 1.5rem;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
@@ -686,12 +663,15 @@
         }
         
         .modal-body {
-            padding: 1.25rem;
+            padding: 1rem;
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         @media (min-width: 768px) {
             .modal-body {
-                padding: 2rem 2.5rem;
+                padding: 1.5rem 2rem;
             }
         }
         
@@ -701,15 +681,13 @@
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
-            position: -webkit-sticky;
-            position: sticky;
-            bottom: 0;
             background: white;
+            flex-shrink: 0;
         }
         
         @media (min-width: 768px) {
             .modal-footer {
-                padding: 1.5rem 2.5rem;
+                padding: 1.25rem 2rem;
                 flex-direction: row;
                 justify-content: flex-end;
                 gap: 1rem;
@@ -717,10 +695,10 @@
         }
         
         .mut-question {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             padding: 1rem;
             background: var(--bg-main);
-            border-radius: 10px;
+            border-radius: 8px;
             border-left: 4px solid var(--primary-light);
         }
         
@@ -728,20 +706,29 @@
             border-left-color: var(--primary);
         }
         
+        .mut-question.error {
+            border-left-color: var(--error);
+            background: rgba(201, 58, 58, 0.03);
+        }
+        
         .mut-question-number {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--primary);
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             text-transform: uppercase;
         }
         
+        .mut-question.error .mut-question-number {
+            color: var(--error);
+        }
+        
         .mut-question-text {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 1rem;
-            line-height: 1.5;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
         }
         
         .question-item {
@@ -764,6 +751,28 @@
             select, input, textarea {
                 font-size: 16px !important;
             }
+        }
+        
+        .branch-redirect-page {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        
+        .branch-redirect-page h1 {
+            margin-bottom: 1.5rem;
+        }
+        
+        .branch-icon {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .branch-message {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
         }
     </style>
 </head>
@@ -812,18 +821,6 @@
                         <button class="btn btn-primary" id="checkBtn" onclick="checkAsanFinans()" disabled>Yoxla</button>
                     </div>
                     <div id="asanFinansStatus"></div>
-                    
-                    <div class="consent-box" id="consentBox" style="display: none;">
-                        <label class="consent-checkbox">
-                            <input type="checkbox" id="dataConsentCheck" onchange="handleConsentChange()">
-                            <div class="consent-text">
-                                Məlumatlarımın 
-                                <span class="consent-link" onclick="showTermsModal('akb')">"Azərbaycan Kredit Bürosu"</span>, 
-                                <span class="consent-link" onclick="showTermsModal('asan')">"ASAN Finans"</span> 
-                                və digər məlumat bazalarından sorğu edilməsinə razılıq verirəm.
-                            </div>
-                        </label>
-                    </div>
                 </div>
                 
                 <div class="section" id="deliverySection">
@@ -877,7 +874,6 @@
                     <div onclick="openMutModal()" style="display: flex; flex-direction: column; gap: 0.75rem; padding: 1rem; background: var(--bg-main); border: 2px solid var(--border); border-radius: 10px; cursor: pointer;">
                         <div style="display: flex; flex-direction: column;">
                             <div style="font-weight: 600; color: var(--primary); margin-bottom: 0.25rem; font-size: 0.95rem;">Sorğu anketini doldurun</div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4;">27 sual - müştəri tərəfindən doldurulmalıdır</div>
                         </div>
                         <button class="btn btn-secondary" style="margin-top: 0.5rem;" onclick="event.stopPropagation(); openMutModal();">Ətraflı</button>
                     </div>
@@ -920,6 +916,20 @@
                 </div>
             </div>
         </div>
+        
+        <div id="pageBranchRedirect" class="page">
+            <div class="card branch-redirect-page">
+                <div class="branch-icon">🏦</div>
+                <h1>Zəhmət olmasa filiala yaxınlaşın</h1>
+                <div class="branch-message">
+                    Seçimlərinizə əsasən əlavə məlumat və sənədlər tələb olunur. 
+                    Zəhmət olmasa ən yaxın filialımıza müraciət edin.
+                </div>
+                <div class="btn-group" style="justify-content: center;">
+                    <button class="btn btn-primary" onclick="goToPage1()">← Geriyə</button>
+                </div>
+            </div>
+        </div>
     </div>
     
     <div id="termsModal" class="modal">
@@ -944,13 +954,14 @@
                 <div class="alert alert-warning">
                     <span>⚠️</span>
                     <div>
-                        <strong>Siz "Bəli" cavabını seçdiniz.</strong>
-                        <p style="margin-top: 0.75rem; font-size: 0.95rem;">Davam etmək üçün filiala yönləndiriləcəksiniz.</p>
+                        <strong>Bəli seçimlərinizə görə filiala yaxınlaşmağınız tələb olunur.</strong>
+                        <p style="margin-top: 0.75rem;">Davam edəcəksiniz mi?</p>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="closeFatcaWarning(true)" style="width: 100%;">Bəli, davam edək</button>
+                <button class="btn btn-secondary" onclick="closeFatcaWarning(false)">Xeyr</button>
+                <button class="btn btn-primary" onclick="closeFatcaWarning(true)">Bəli, davam edək</button>
             </div>
         </div>
     </div>
@@ -959,12 +970,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Sorğu anketi</h2>
-                <button class="modal-close" onclick="closeMutModal()">×</button>
+                <button class="modal-close" onclick="tryCloseMutModal()">×</button>
             </div>
             <div class="modal-body" id="mutModalBody"></div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeMutModal()">Ləğv et</button>
-                <button class="btn btn-primary" onclick="saveMutAnswers()">Yadda saxla</button>
+                <button class="btn btn-secondary" onclick="tryCloseMutModal()">Ləğv et</button>
+                <button class="btn btn-primary" id="saveMutBtn" onclick="saveMutAnswers()">Yadda saxla</button>
             </div>
         </div>
     </div>
@@ -1025,6 +1036,7 @@
         };
         
         let currentFatcaQuestion = null;
+        let hasMandatoryErrors = false;
         
         function fetchUserData() {
             setTimeout(function() {
@@ -1123,37 +1135,47 @@
                 if (confirmed) {
                     formData.fatca[currentFatcaQuestion] = 'yes';
                     updateToggleLabels(currentFatcaQuestion, true);
-                    console.log('FATCA YES selected - User will be redirected to branch');
+                    saveToLocalStorage();
+                    
+                    document.getElementById('page1').classList.remove('active');
+                    document.getElementById('pageBranchRedirect').classList.add('active');
                 } else {
                     formData.fatca[currentFatcaQuestion] = 'no';
                     const toggle = document.querySelector('#fatca-' + currentFatcaQuestion + ' input[type="checkbox"]');
                     if (toggle) toggle.checked = false;
                     updateToggleLabels(currentFatcaQuestion, false);
+                    saveToLocalStorage();
                 }
-                saveToLocalStorage();
                 currentFatcaQuestion = null;
             }
         }
         
         function initMutQuestions() {
             const container = document.getElementById('mutModalBody');
+            hasMandatoryErrors = false;
+            
             container.innerHTML = mutQuestions.map(function(q, index) {
                 const isMandatory = q.mandatory;
+                const answer = formData.mut[q.id];
+                const hasError = isMandatory && (!answer || answer === '' || answer === 'Seçin');
+                
+                if (hasError) hasMandatoryErrors = true;
+                
                 let inputHTML = '';
                 
                 switch (q.type) {
                     case 'input':
-                        inputHTML = '<input type="text" class="mut-select" id="' + q.id + '" value="' + (formData.mut[q.id] || '') + '" onchange="saveMutAnswer(\'' + q.id + '\', this.value)">';
+                        inputHTML = '<input type="text" class="mut-select' + (hasError ? ' error' : '') + '" id="' + q.id + '" value="' + (answer || '') + '" onchange="saveMutAnswer(\'' + q.id + '\', this.value)">';
                         break;
                     case 'email':
-                        inputHTML = '<input type="email" class="mut-select" id="' + q.id + '" value="' + (formData.mut[q.id] || '') + '" onchange="saveMutAnswer(\'' + q.id + '\', this.value)">';
+                        inputHTML = '<input type="email" class="mut-select' + (hasError ? ' error' : '') + '" id="' + q.id + '" value="' + (answer || '') + '" onchange="saveMutAnswer(\'' + q.id + '\', this.value)">';
                         break;
                     case 'textarea':
-                        inputHTML = '<textarea class="mut-select" id="' + q.id + '" onchange="saveMutAnswer(\'' + q.id + '\', this.value)">' + (formData.mut[q.id] || '') + '</textarea>';
+                        inputHTML = '<textarea class="mut-select' + (hasError ? ' error' : '') + '" id="' + q.id + '" onchange="saveMutAnswer(\'' + q.id + '\', this.value)">' + (answer || '') + '</textarea>';
                         break;
                     case 'toggle':
-                        const isChecked = formData.mut[q.id] === 'yes';
-                        if (formData.mut[q.id] === undefined) {
+                        const isChecked = answer === 'yes';
+                        if (answer === undefined) {
                             formData.mut[q.id] = 'no';
                         }
                         inputHTML = '<div class="toggle-labels" style="justify-content: flex-start;">' +
@@ -1166,22 +1188,24 @@
                             '</div>';
                         break;
                     case 'select':
-                        inputHTML = '<select class="mut-select" id="' + q.id + '" onchange="saveMutAnswer(\'' + q.id + '\', this.value)">';
+                        inputHTML = '<select class="mut-select' + (hasError ? ' error' : '') + '" id="' + q.id + '" onchange="saveMutAnswer(\'' + q.id + '\', this.value)">';
                         q.options.forEach(function(opt) {
-                            inputHTML += '<option value="' + opt + '" ' + (formData.mut[q.id] === opt ? 'selected' : '') + '>' + opt + '</option>';
+                            inputHTML += '<option value="' + opt + '" ' + (answer === opt ? 'selected' : '') + '>' + opt + '</option>';
                         });
                         inputHTML += '</select>';
                         break;
                     default:
-                        inputHTML = '<input type="text" class="mut-select" id="' + q.id + '" value="' + (formData.mut[q.id] || '') + '" onchange="saveMutAnswer(\'' + q.id + '\', this.value)">';
+                        inputHTML = '<input type="text" class="mut-select' + (hasError ? ' error' : '') + '" id="' + q.id + '" value="' + (answer || '') + '" onchange="saveMutAnswer(\'' + q.id + '\', this.value)">';
                 }
                 
-                return '<div class="mut-question ' + (isMandatory ? 'mandatory' : '') + '">' +
+                return '<div class="mut-question ' + (isMandatory ? 'mandatory' : '') + (hasError ? ' error' : '') + '">' +
                     '<div class="mut-question-number">Sual ' + (index + 1) + '/27' + (isMandatory ? ' (Məcburi)' : '') + '</div>' +
                     '<div class="mut-question-text">' + q.text + '</div>' +
                     inputHTML +
                     '</div>';
             }).join('');
+            
+            updateSaveButtonState();
         }
         
         function checkAsanFinans() {
@@ -1194,10 +1218,10 @@
                 
                 if (hasAccess) {
                     statusDiv.innerHTML = '<div class="alert alert-success" style="margin-top: 1rem;"><span>✓</span> Giriş hüququ mövcuddur</div>';
-                    document.getElementById('consentBox').style.display = 'block';
+                    formData.dataConsent = true;
                 } else {
                     statusDiv.innerHTML = '<div class="alert alert-error" style="margin-top: 1rem;"><span>✗</span> Giriş hüququ tapılmadı. Zəhmət olmasa sistem administratoru ilə əlaqə saxlayın.</div>';
-                    document.getElementById('consentBox').style.display = 'none';
+                    formData.dataConsent = false;
                 }
                 
                 saveToLocalStorage();
@@ -1207,9 +1231,11 @@
         
         function handleConsentChange() {
             const checkbox = document.getElementById('dataConsentCheck');
-            formData.dataConsent = checkbox.checked;
-            saveToLocalStorage();
-            updateFormState();
+            if (checkbox) {
+                formData.dataConsent = checkbox.checked;
+                saveToLocalStorage();
+                updateFormState();
+            }
         }
         
         function showTermsModal(type) {
@@ -1258,11 +1284,51 @@
         function saveMutAnswer(questionId, value) {
             formData.mut[questionId] = value;
             saveToLocalStorage();
+            
+            const question = mutQuestions.find(function(q) { return q.id === questionId; });
+            if (question && question.mandatory) {
+                const hasValue = value && value !== '' && value !== 'Seçin';
+                const questionElement = document.querySelector('[id="' + questionId + '"]');
+                const questionContainer = questionElement ? questionElement.closest('.mut-question') : null;
+                
+                if (questionContainer) {
+                    if (hasValue) {
+                        questionContainer.classList.remove('error');
+                        questionElement.classList.remove('error');
+                    } else {
+                        questionContainer.classList.add('error');
+                        questionElement.classList.add('error');
+                    }
+                }
+            }
+            
+            updateSaveButtonState();
+        }
+        
+        function updateSaveButtonState() {
+            const mandatoryQuestions = mutQuestions.filter(function(q) { return q.mandatory; });
+            const answeredMandatory = mandatoryQuestions.filter(function(q) {
+                const answer = formData.mut[q.id];
+                return answer && answer !== '' && answer !== 'Seçin';
+            });
+            
+            const saveBtn = document.getElementById('saveMutBtn');
+            if (saveBtn) {
+                saveBtn.disabled = answeredMandatory.length < mandatoryQuestions.length;
+            }
         }
         
         function openMutModal() {
             initMutQuestions();
             document.getElementById('mutModal').classList.add('show');
+        }
+        
+        function tryCloseMutModal() {
+            if (hasMandatoryErrors) {
+                alert('Məcburi sualları cavablandırmadan bağlaya bilməzsiniz!');
+                return;
+            }
+            closeMutModal();
         }
         
         function closeMutModal() {
@@ -1276,12 +1342,14 @@
                 return answer && answer !== '' && answer !== 'Seçin';
             });
             
-            const statusDiv = document.getElementById('mutCompletionStatus');
-            if (answeredMandatory.length === mandatoryQuestions.length) {
-                statusDiv.innerHTML = '<div class="alert alert-success" style="margin-top: 1rem;"><span>✓</span> Bütün məcburi suallar cavablandırılıb</div>';
-            } else {
-                statusDiv.innerHTML = '<div class="alert alert-warning" style="margin-top: 1rem;"><span>⚠</span> ' + answeredMandatory.length + '/' + mandatoryQuestions.length + ' məcburi sual cavablandırılıb</div>';
+            if (answeredMandatory.length < mandatoryQuestions.length) {
+                alert('Zəhmət olmasa bütün məcburi sualları cavablandırın!');
+                initMutQuestions();
+                return;
             }
+            
+            const statusDiv = document.getElementById('mutCompletionStatus');
+            statusDiv.innerHTML = '<div class="alert alert-success" style="margin-top: 1rem;"><span>✓</span> Bütün məcburi suallar cavablandırılıb</div>';
             
             closeMutModal();
             saveToLocalStorage();
@@ -1377,6 +1445,7 @@
         
         function goToPage1() {
             document.getElementById('page2').classList.remove('active');
+            document.getElementById('pageBranchRedirect').classList.remove('active');
             document.getElementById('page1').classList.add('active');
             document.getElementById('progressFill').style.width = '50%';
             window.scrollTo(0, 0);
@@ -1478,11 +1547,7 @@
                 const statusDiv = document.getElementById('asanFinansStatus');
                 if (formData.asanFinansAccess) {
                     statusDiv.innerHTML = '<div class="alert alert-success" style="margin-top: 1rem;"><span>✓</span> Giriş hüququ mövcuddur</div>';
-                    document.getElementById('consentBox').style.display = 'block';
-                    
-                    if (formData.dataConsent) {
-                        document.getElementById('dataConsentCheck').checked = true;
-                    }
+                    formData.dataConsent = true;
                 } else {
                     statusDiv.innerHTML = '<div class="alert alert-error" style="margin-top: 1rem;"><span>✗</span> Giriş hüququ tapılmadı</div>';
                 }
