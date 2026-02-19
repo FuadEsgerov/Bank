@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Bank Kart Sifarişi</title>
+    <title>Əmək haqqı kartının sifarişi</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap');
         
@@ -135,6 +135,32 @@
                 font-size: 1.5rem;
                 margin-bottom: 1.5rem;
             }
+        }
+
+        /* Card info strip below title */
+        .card-info-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .card-info-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--primary-pale);
+            border: 1px solid var(--primary-light);
+            border-radius: 6px;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .card-info-badge .badge-label {
+            color: var(--text-secondary);
+            font-weight: 500;
         }
         
         .header-info {
@@ -784,7 +810,23 @@
         
         <div id="page1" class="page active">
             <div class="card">
-                <h1>Kart Sifarişi Forması</h1>
+                <h1>Əmək haqqı kartının sifarişi</h1>
+
+                <!-- Card info badges -->
+                <div class="card-info-strip">
+                    <div class="card-info-badge">
+                        <span class="badge-label">Kartın valyutası:</span>
+                        <span>AZN</span>
+                    </div>
+                    <div class="card-info-badge">
+                        <span class="badge-label">Kartın növü:</span>
+                        <span>Bolkart Salary</span>
+                    </div>
+                    <div class="card-info-badge">
+                        <span class="badge-label">Müddət:</span>
+                        <span>60 ay</span>
+                    </div>
+                </div>
                 
                 <div class="header-info" id="headerInfo">
                     <div class="header-item">
@@ -925,9 +967,6 @@
                     Seçimlərinizə əsasən əlavə məlumat və sənədlər tələb olunur. 
                     Zəhmət olmasa ən yaxın filialımıza müraciət edin.
                 </div>
-                <!-- <div class="btn-group" style="justify-content: center;">
-                    <button class="btn btn-primary" onclick="goToPage1()">← Geriyə</button>
-                </div> -->
             </div>
         </div>
     </div>
@@ -1068,7 +1107,6 @@
             if (!checkbox.checked) {
                 formData.asanFinansAccess = null;
                 document.getElementById('asanFinansStatus').innerHTML = '';
-                document.getElementById('consentBox').style.display = 'none';
             }
             
             saveToLocalStorage();
